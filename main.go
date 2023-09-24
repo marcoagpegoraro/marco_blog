@@ -1,16 +1,26 @@
 package main
 
 import (
-	"fmt"
+	"os"
 
+	"github.com/gofiber/fiber/v2"
+	"github.com/marcoagpegoraro/marco_blog/controllers"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 )
 
 func init() {
 	initializers.LoadEnvPackages()
 	initializers.ConnectToDatabase()
+	initializers.SyncDB()
 }
 
 func main() {
-	fmt.Println("Hello World2")
+	//Setup app
+	app := fiber.New()
+
+	//Routes
+	app.Get("/", controllers.PostIndex)
+
+	//Start App
+	app.Listen(":" + os.Getenv("PORT"))
 }
