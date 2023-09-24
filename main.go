@@ -26,7 +26,7 @@ func main() {
 		CaseSensitive: false,
 		StrictRouting: false,
 		ServerHeader:  "Fiber",
-		AppName:       "Test App v1.0.1",
+		AppName:       "Blog do marco v1.0.0",
 	})
 
 	//Configure App
