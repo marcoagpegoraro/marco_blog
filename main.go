@@ -1,7 +1,9 @@
 package main
 
 import (
+	"embed"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,6 +12,9 @@ import (
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 )
 
+//go:embed views
+var viewsAsssets embed.FS
+
 func init() {
 	initializers.LoadEnvPackages()
 	initializers.ConnectToDatabase()
@@ -17,7 +22,9 @@ func init() {
 }
 
 func main() {
-	engine := django.New("./views", ".django")
+	// engine := django.New("./views", ".django")
+	// Create a new engine
+	engine := django.NewPathForwardingFileSystem(http.FS(viewsAsssets), "/views", ".django")
 
 	//Setup app
 	app := fiber.New(fiber.Config{
