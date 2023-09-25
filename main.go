@@ -41,6 +41,7 @@ func main() {
 
 	//Routes
 	app.Get("/", controllers.PostIndex)
+	app.Post("/", controllers.PostIndexPost)
 
 	//Start App
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
