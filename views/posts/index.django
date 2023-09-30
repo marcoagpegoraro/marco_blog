@@ -44,6 +44,10 @@
         theme: 'snow'
     });
 
+    // const value = `<h1>New content here</h1>`
+    // const delta = quill.clipboard.convert(value)
+    // quill.setContents(delta, 'silent')
+
     document.querySelector('form').addEventListener('submit', async (event) => {
         var myEditor = document.querySelector('#editor')
         var html = myEditor.children[0].innerHTML

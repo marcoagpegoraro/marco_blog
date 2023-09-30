@@ -4,6 +4,9 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/marcoagpegoraro/marco_blog/dto"
+	"github.com/marcoagpegoraro/marco_blog/initializers"
+	"github.com/marcoagpegoraro/marco_blog/mapper"
 )
 
 func PostIndex(c *fiber.Ctx) error {
@@ -13,18 +16,18 @@ func PostIndex(c *fiber.Ctx) error {
 }
 
 func PostIndexPost(c *fiber.Ctx) error {
-	type Post struct {
-		PostTitle    string `json:"PostTitle" xml:"PostTitle" form:"PostTitle"`
-		PostSubtitle string `json:"PostSubtitle" xml:"PostSubtitle" form:"PostSubtitle"`
-		PostBody     string `json:"PostBody" xml:"PostBody" form:"PostBody"`
-	}
-
-	post := new(Post)
+	post := new(dto.PostRequest)
 
 	if err := c.BodyParser(post); err != nil {
 		fmt.Println("error = ", err)
 		return c.SendStatus(200)
 	}
+
+	postModel := mapper.MapPostRequestToPostModel(*post)
+
+	fmt.Println(postModel)
+
+	initializers.DB.Create(&postModel)
 
 	return c.Render("posts/index", fiber.Map{
 		"Title": "Create new post",
