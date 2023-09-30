@@ -40,8 +40,11 @@ func main() {
 	app.Static("/", "./public")
 
 	//Routes
-	app.Get("/", controllers.PostIndex)
-	app.Post("/", controllers.PostIndexPost)
+
+	app.Get("/", controllers.GetIndex)
+
+	app.Get("/posts", controllers.GetPostIndex)
+	app.Post("/posts", controllers.PostPostIndex)
 
 	//Start App
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))

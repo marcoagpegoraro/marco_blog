@@ -1,0 +1,8 @@
+{% include "partials/header.django" %}
+
+
+
+<script>
+   
+</script>
+{% include "partials/footer.django" %}

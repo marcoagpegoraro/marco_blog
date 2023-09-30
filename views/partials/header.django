@@ -1,11 +1,26 @@
 <div class="container">
-    <header class="d-flex justify-content-center py-3">
-      <ul class="nav nav-pills">
-        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Features</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">About</a></li>
-      </ul>
-    </header>
-  </div>
+  <header class="d-flex justify-content-center py-3">
+    <ul class="nav nav-pills">
+      <li class="nav-item"><a href="/" id="homeButtonNavbar" class="nav-link">Home</a></li>
+      <li class="nav-item"><a href="/posts" id="createPostButtonNavbar" class="nav-link">Create post</a></li>
+    </ul>
+  </header>
+</div>
+
+<script>
+  const currentUrl = window.location.pathname;
+
+  let button;
+
+  switch (currentUrl) {
+    case "/":
+      button = document.getElementById("homeButtonNavbar")
+      break;
+    case "/posts":
+      button = document.getElementById("createPostButtonNavbar")
+      break;
+  }
+
+  button.classList.add("active");
+
+</script>
