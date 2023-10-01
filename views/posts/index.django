@@ -4,7 +4,7 @@
 <section style="max-width: 800px; margin: 0 auto;">
     <h1>{{ Title }}</h1>
 
-    <form id="form" action="/" method="post">
+    <form id="form" action="/posts" method="post">
         <div class="mb-3">
             <label for="PostTitle" class="form-label">Title</label>
             <input type="text" class="form-control" id="PostTitle" name="PostTitle" placeholder="Title">
