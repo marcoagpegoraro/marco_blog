@@ -2,7 +2,7 @@
 
 {% for post in Posts %}
 
-<div class="card">
+<div class="card" style="margin-bottom: 20px;">
     <div class="row no-gutters">
         <div class="col-auto">
             <img src="//placehold.it/200" class="img-fluid" alt="">

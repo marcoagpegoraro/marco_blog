@@ -1,0 +1,16 @@
+{% include "partials/header.django" %}
+
+<style>
+    .post img { 
+        max-width: 100%; 
+        height: auto; 
+    }
+    
+</style>
+
+<div class="post" style="max-width: 680px; word-wrap: anywhere; margin: 0 auto;">
+    {{ Post.Body }} 
+</div>
+
+
+{% include "partials/footer.django" %}

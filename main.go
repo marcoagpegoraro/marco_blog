@@ -44,6 +44,7 @@ func main() {
 	app.Get("/", controllers.GetIndex)
 
 	app.Get("/posts", controllers.GetPostIndex)
+	app.Get("/posts/:id", controllers.GetOnePostIndex)
 	app.Post("/posts", controllers.PostPostIndex)
 
 	//Start App
