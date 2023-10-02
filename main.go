@@ -8,7 +8,6 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/template/django/v3"
-	"github.com/marcoagpegoraro/marco_blog/controllers"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 )
 
@@ -40,12 +39,7 @@ func main() {
 	app.Static("/", "./public")
 
 	//Routes
-
-	app.Get("/", controllers.GetIndex)
-
-	app.Get("/posts", controllers.GetPostIndex)
-	app.Get("/posts/:id", controllers.GetOnePostIndex)
-	app.Post("/posts", controllers.PostPostIndex)
+	Routes(app)
 
 	//Start App
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))

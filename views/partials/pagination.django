@@ -1,0 +1,24 @@
+<div class="row g-3 align-items-center container py-2 mb-2 border-bottom">
+  <div class="col-auto">
+    <label for="postsPerPage" class="form-label">Posts per page</label>
+  </div>
+  <div class="col-auto">
+    <select id="postsPerPage" class="form-select" aria-label="Default select example">
+      <option value="10">10</option>
+      <option value="25">25</option>
+      <option value="50">50</option>
+      <option value="100">100</option>
+    </select>
+  </div>
+</div>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const pageSize = urlParams.get('page_size')
+
+  document.getElementById('postsPerPage').value = pageSize || 10
+  
+  document.getElementById('postsPerPage').onchange = function() {
+    window.location = "?page_size=" + this.value;
+  };
+</script>

@@ -17,7 +17,6 @@ func GetPostIndex(c *fiber.Ctx) error {
 }
 
 func GetOnePostIndex(c *fiber.Ctx) error {
-
 	params := c.AllParams()
 
 	id, ok := params["id"]
