@@ -9,6 +9,9 @@
 </style>
 
 <div class="post" style="max-width: 680px; word-wrap: anywhere; margin: 0 auto;">
+    <h1>{{ Post.Title }}</h1> 
+    <h2>{{ Post.Subtitle }}</h2> 
+    <hr/>
     {{ Post.Body }} 
 </div>
 

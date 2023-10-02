@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/django/v3"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 )
@@ -34,6 +35,8 @@ func main() {
 		ServerHeader:  "Fiber",
 		AppName:       "Blog do marco v1.0.0",
 	})
+
+	app.Use(logger.New())
 
 	//Configure App
 	app.Static("/", "./public")

@@ -10,7 +10,7 @@
       <div class="card-block px-2">
         <h4 class="card-title">{{ post.Title }}</h4>
         <p class="card-text">{{ post.Body | striptags | safe | escape | truncatechars:100 }}</p>
-        <a href="/posts/{{post.Id}}" target=”_blank” target class="btn btn-primary stretched-link">Read
+        <a href="/posts/{{post.Id}}" target class="btn btn-primary stretched-link">Read
           article</a>
       </div>
     </div>
