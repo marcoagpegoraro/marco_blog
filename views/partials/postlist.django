@@ -1,0 +1,20 @@
+{% for post in Posts %}
+<div class="card" style="margin-bottom: 20px;">
+    <div class="row no-gutters">
+        <div class="col-auto">
+            <img src="//placehold.it/200" class="img-fluid" alt="">
+        </div>
+        <div class="col">
+            <div class="card-block px-2">
+                <h4 class="card-title">{{ post.Title }}</h4>
+                <p class="card-text">{{ post.Body | striptags | safe | escape | truncatechars:100 }}</p>
+                <a href="/posts/{{post.Id}}" target=”_blank” target class="btn btn-primary stretched-link">Read
+                    article</a>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="card-footer w-100 text-muted">
+    Footer stating cats are CUTE little animals
+</div> -->
+</div>
+{% endfor %}

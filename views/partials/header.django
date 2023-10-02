@@ -1,5 +1,13 @@
 <div class="container">
-  <header class="d-flex justify-content-center py-3">
+  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-light text-decoration-none">
+      <!-- <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> -->
+      <i class="bi bi-code-slash" width="40" height="32" style="margin-right: 10px;"></i>
+      <span class="fs-4">
+        Marco Antonio Gonçalves Pegoraro
+      </span>
+    </a>
+
     <ul class="nav nav-pills">
       <li class="nav-item"><a href="/" id="homeButtonNavbar" class="nav-link">Home</a></li>
       <li class="nav-item"><a href="/posts" id="createPostButtonNavbar" class="nav-link">Create post</a></li>
@@ -22,5 +30,17 @@
   }
 
   button.classList.add("active");
+
+</script>
+
+<script>
+  document.getElementById('btnSwitchDarkMode').addEventListener('click',()=>{
+    if (document.documentElement.getAttribute('data-bs-theme') == 'dark') {
+        document.documentElement.setAttribute('data-bs-theme','light')
+    }
+    else {
+        document.documentElement.setAttribute('data-bs-theme','dark')
+    }
+})
 
 </script>
