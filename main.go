@@ -22,9 +22,11 @@ func init() {
 }
 
 func main() {
-	// engine := django.New("./views", ".django")
 	// Create a new engine
 	engine := django.NewPathForwardingFileSystem(http.FS(viewsAsssets), "/views", ".django")
+
+	// register functions
+	// engine.AddFunc("getImageFromString", helpers.GetImageFromString)
 
 	//Setup app
 	app := fiber.New(fiber.Config{

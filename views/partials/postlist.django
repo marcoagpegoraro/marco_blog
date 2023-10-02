@@ -1,9 +1,22 @@
 {% include "partials/pagination.django" %}
 
 {% for post in Posts %}
+
+<style>
+  .post-list-image {
+    width: 200px;
+    height: 200px;
+  }
+  .post-list-image img {
+    max-width: 200px;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>
+
 <div class="card" style="margin-bottom: 20px;">
   <div class="row no-gutters">
-    <div class="col-auto">
+    <div class="col-auto post-list-image">
       <img src="//placehold.it/200" class="img-fluid" alt="">
     </div>
     <div class="col">
