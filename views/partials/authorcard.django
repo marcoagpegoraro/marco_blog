@@ -1,19 +1,30 @@
 <div class="card" style="width: 18rem;">
-    <img src="/assets/images/background-pic.jpg" class="card-img-top" style="object-fit: cover; max-height: 100px;" alt="...">
-    <div class="card-body">
-      <img src="/assets/images/profile-pic.jpg" style="
+  <img src="/assets/images/background-pic.jpg" class="card-img-top" style="object-fit: cover; max-height: 100px;"
+    alt="...">
+  <div class="card-body">
+    <img src="/assets/images/profile-pic.jpg" style="
                       position: absolute;
                       border-radius: 50%;
                       border: 1px solid #CCCCCC;
                       width: 100px;
                       margin-top: -70px;
                       margin-left: calc((286px /2) - 50px - 16px);" alt="...">
-      <p class="card-text" style="margin-top: 40px; text-align: center;">
-        Hello, my name is Marco, welcome to my personal blog, here i write
-        posts about tecnology, programming, life, tech reviews 
-        among other things.
-        
-        
-      </p>
-    </div>
+    <p class="card-text" style="margin-top: 40px; text-align: center;">
+      Hello, my name is Marco, welcome to my personal blog, here i write
+      posts about tecnology, programming, life, tech reviews
+      among other things.
+    </p>
+    <section style="display: flex; justify-content: space-evenly; font-size: 1.5rem;">
+      <a target="_blank" href="https://www.linkedin.com/in/marco-antonio-goncalves">
+        <i class="bi bi-linkedin" style="color: #0E76A8;"></i>
+      </a>
+      <a target="_blank" href="https://medium.com/@tete5423">
+        <i class="bi bi-medium" style="color: white;"></i>
+      </a>
+      <a target="_blank" href="https://github.com/marcoagpegoraro">
+        <i class="bi bi-github" style="color: white;"></i>
+      </a>
+    </section>
+
   </div>
+</div>
