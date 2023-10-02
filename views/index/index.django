@@ -1,5 +1,18 @@
 {% include "partials/header.django" %}
-<div class="container d-flex">
+
+<style>
+  @media (min-width: 992px) {
+  #homePage {
+    display: flex;
+  }
+  #aboutMeCard {
+    width: 18rem;
+  }
+}
+
+</style>
+
+<div id="homePage" class="container">
   <section id="post-list" class="m-2">
 
     {% include "partials/postlist.django" %}
