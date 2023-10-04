@@ -4,17 +4,22 @@ import (
 	"bytes"
 	"context"
 	"encoding/base64"
+	"fmt"
 	"regexp"
 	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
+	"github.com/aws/aws-sdk-go-v2/service/s3/types"
 	"github.com/google/uuid"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 )
 
-func UploadPostImagesToS3(postBody string) error {
-	images := GetImagesFromString(postBody)
+var bucketName = "marco-blog-post-images"
+var s3UrlPrefix = "https://" + bucketName + ".s3.sa-east-1.amazonaws.com/"
+
+func UploadPostImagesToS3(images []string) []string {
+	var imagesUrlS3 []string
 
 	for _, image := range images {
 
@@ -23,17 +28,28 @@ func UploadPostImagesToS3(postBody string) error {
 		decode, err := base64.StdEncoding.DecodeString(b64data)
 
 		if err != nil {
-			return err
+			return nil
 		}
 
-		initializers.S3Client.PutObject(context.TODO(), &s3.PutObjectInput{
-			Bucket: aws.String("marco-blog-post-images"),
-			Key:    aws.String(uuid.New().String() + ".jpg"),
+		imageName := uuid.New().String() + ".jpg"
+
+		imagesUrlS3 = append(imagesUrlS3, s3UrlPrefix+imageName)
+
+		obj, err := initializers.S3Client.PutObject(context.TODO(), &s3.PutObjectInput{
+			Bucket: aws.String(bucketName),
+			Key:    aws.String(imageName),
 			Body:   bytes.NewReader(decode),
+			ACL:    types.ObjectCannedACLPublicRead,
 		})
 
+		if err != nil {
+			fmt.Println("Error sending image to s3")
+			fmt.Println(err)
+			fmt.Println(obj)
+		}
+
 	}
-	return nil
+	return imagesUrlS3
 }
 
 func GetImagesFromString(str string) []string {

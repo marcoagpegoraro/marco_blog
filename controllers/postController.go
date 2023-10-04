@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/marcoagpegoraro/marco_blog/dto"
@@ -45,7 +46,12 @@ func PostPostIndex(c *fiber.Ctx) error {
 		return c.SendStatus(200)
 	}
 
-	helpers.UploadPostImagesToS3(post.PostBody)
+	imagesBase64 := helpers.GetImagesFromString(post.PostBody)
+	imagesS3Url := helpers.UploadPostImagesToS3(imagesBase64)
+
+	for index, imageBase64 := range imagesBase64 {
+		post.PostBody = strings.Replace(post.PostBody, imageBase64, imagesS3Url[index], 1)
+	}
 
 	postModel := mapper.MapPostRequestToPostModel(*post)
 	initializers.DB.Create(&postModel)
