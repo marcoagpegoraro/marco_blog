@@ -19,6 +19,7 @@ func init() {
 	initializers.LoadEnvPackages()
 	initializers.ConnectToDatabase()
 	initializers.SyncDB()
+	initializers.ConnectToS3()
 }
 
 func main() {

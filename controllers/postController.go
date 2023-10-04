@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/marcoagpegoraro/marco_blog/dto"
+	"github.com/marcoagpegoraro/marco_blog/helpers"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 	"github.com/marcoagpegoraro/marco_blog/mapper"
 	"github.com/marcoagpegoraro/marco_blog/models"
@@ -43,6 +44,8 @@ func PostPostIndex(c *fiber.Ctx) error {
 		fmt.Println("error = ", err)
 		return c.SendStatus(200)
 	}
+
+	helpers.UploadPostImagesToS3(post.PostBody)
 
 	postModel := mapper.MapPostRequestToPostModel(*post)
 	initializers.DB.Create(&postModel)
