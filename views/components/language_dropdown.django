@@ -1,0 +1,6 @@
+<label for="PostLanguage" class="form-label">Post language</label>
+<select id="PostLanguage" name="PostLanguage"  class="form-select" aria-label="Post language">
+  {% for  key, values in languages %}
+    <option value="{{ key }}">{{ camelCaseToCapitalizeFirstWorldAndAddSpaces(values) }}</option>
+  {% endfor %}
+</select>

@@ -6,6 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/marcoagpegoraro/marco_blog/dto"
+	"github.com/marcoagpegoraro/marco_blog/enum"
 	"github.com/marcoagpegoraro/marco_blog/helpers"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 	"github.com/marcoagpegoraro/marco_blog/mapper"
@@ -14,7 +15,8 @@ import (
 
 func GetPostIndex(c *fiber.Ctx) error {
 	return c.Render("posts/index", fiber.Map{
-		"title": "Create new post",
+		"title":     "Create new post",
+		"languages": enum.LanguageEnumValues(),
 	}, "layouts/main")
 }
 
@@ -46,6 +48,8 @@ func PostPostIndex(c *fiber.Ctx) error {
 		return c.SendStatus(200)
 	}
 
+	// fmt.Println(post)
+
 	imagesBase64 := helpers.GetImagesFromString(post.PostBody)
 	if imagesBase64 != nil {
 		imagesS3Url := helpers.UploadPostImagesToS3(imagesBase64)
@@ -58,6 +62,7 @@ func PostPostIndex(c *fiber.Ctx) error {
 	initializers.DB.Create(&postModel)
 
 	return c.Render("posts/index", fiber.Map{
-		"title": "Create new post",
+		"title":     "Create new post",
+		"languages": enum.LanguageEnumValues(),
 	}, "layouts/main")
 }

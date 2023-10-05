@@ -20,7 +20,7 @@ func GetIndex(c *fiber.Ctx) error {
 	pageSizeInt, _ := strconv.Atoi(pageSize)
 
 	var posts []models.Post
-	initializers.DB.Order("created_at desc").Limit(pageSizeInt).Preload("Tags").Find(&posts)
+	initializers.DB.Order("created_at desc").Limit(pageSizeInt).Where("is_draft = ?", "false").Preload("Tags").Find(&posts)
 
 	return c.Render("index/index", fiber.Map{
 		"title": "Home",

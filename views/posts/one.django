@@ -9,9 +9,11 @@
 </style>
 
 <div class="post" style="max-width: 680px; word-wrap: anywhere; margin: 0 auto;">
-    <h1>{{ post.Title }}</h1> 
+    <button class="btn btn-warning" style="float: right;" onclick="location.href='/posts/{{post.Id}}/edit';">Edit post</button>
+    <h1>{{ post.Title }}</h1>  
     <h2>{{ post.Subtitle }}</h2> 
     <p>{{ formatDate(post.CreatedAt) }}</p> 
+    <p>{{ camelCaseToCapitalizeFirstWorldAndAddSpaces(post.Language.String) }}</p> 
     {% for tag in post.Tags %}
       <span class="badge rounded-pill text-bg-secondary">{{ tag.Name }}</span>
     {% endfor %}

@@ -30,6 +30,7 @@ func main() {
 	// register functions
 	engine.AddFunc("getFirstImageUrlFromString", helpers.GetFirstImageUrlFromString)
 	engine.AddFunc("formatDate", helpers.FormatDate)
+	engine.AddFunc("camelCaseToCapitalizeFirstWorldAndAddSpaces", helpers.CamelCaseToCapitalizeFirstWorldAndAddSpaces)
 
 	//Setup app
 	app := fiber.New(fiber.Config{

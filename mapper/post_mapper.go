@@ -20,6 +20,8 @@ func MapPostRequestToPostModel(postRequest dto.PostRequest) models.Post {
 	}
 
 	postModel.Tags = tags
+	postModel.Language = postRequest.PostLanguage
+	postModel.IsDraft = postRequest.PostIsDraft
 
 	return *postModel
 }

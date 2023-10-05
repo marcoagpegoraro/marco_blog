@@ -16,7 +16,11 @@
         </div>
 
         <div class="mb-3">
-            {% include "components/chip_input.django" %}
+          {% include "components/chip_input.django" %}
+        </div>
+
+        <div class="mb-3">
+          {% include "components/language_dropdown.django" %}
         </div>
 
         <div class="card" style="border-color: #DEE2E6;">
@@ -26,8 +30,8 @@
         <textarea style="display:none" id="PostBody" name="PostBody"></textarea>
 
         <div class="mb-3" style="display: flex; justify-content: right; margin-top: 16px;">
-            <button type="submit" value="Submit" class="btn btn-secondary mb-3">Save as draft</button>
-            <button type="submit" value="Submit" class="btn btn-primary mb-3">Post</button>
+            <button type="submit" name="PostIsDraft" value="true" class="btn btn-secondary m-2">Save as draft</button>
+            <button type="submit" name="PostIsDraft" value="false" class="btn btn-primary m-2">Post</button>
         </div>
     </form>
 

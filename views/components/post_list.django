@@ -25,7 +25,8 @@
         <h4 class="card-title">{{ post.Title }}</h4>
         <p class="card-text">{{ post.Body | striptags | safe | escape | truncatechars:100 }}</p>
         <p class="card-text">Publicated at {{ formatDate(post.CreatedAt) }} <br/>
-        Tags:<br/>
+        <p class="card-text">Language: {{ camelCaseToCapitalizeFirstWorldAndAddSpaces(post.Language.String) }} <br/>
+          Tags:<br/>
           {% for tag in post.Tags %}
             <span class="badge rounded-pill text-bg-secondary">{{ tag.Name }}</span>
           {% endfor %}
