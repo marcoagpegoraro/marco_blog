@@ -13,6 +13,7 @@ type Post struct {
 	Subtitle  string
 	Body      string
 	IsDraft   bool
+	Language  string
 	Tags      []Tag `gorm:"many2many:posts_tags;"`
 	CreatedAt time.Time
 	UpdatedAt time.Time

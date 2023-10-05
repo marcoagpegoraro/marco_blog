@@ -10,7 +10,7 @@ import (
 
 func TestGetImageFromString(t *testing.T) {
 
-	body, err := os.ReadFile("./test_files/postbody.html")
+	body, err := os.ReadFile("./test_files/post_body.html")
 	if err != nil {
 		log.Fatalf("unable to read file: %v", err)
 	}
