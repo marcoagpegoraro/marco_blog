@@ -9,6 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/django/v3"
+	"github.com/marcoagpegoraro/marco_blog/helpers"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 )
 
@@ -27,7 +28,8 @@ func main() {
 	engine := django.NewPathForwardingFileSystem(http.FS(viewsAsssets), "/views", ".django")
 
 	// register functions
-	// engine.AddFunc("getImageFromString", helpers.GetImageFromString)
+	engine.AddFunc("getFirstImageUrlFromString", helpers.GetFirstImageUrlFromString)
+	engine.AddFunc("formatDate", helpers.FormatDate)
 
 	//Setup app
 	app := fiber.New(fiber.Config{
