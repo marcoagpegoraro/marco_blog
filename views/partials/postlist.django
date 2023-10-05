@@ -12,7 +12,7 @@
   }
 </style>
 
-{% for post in Posts %}
+{% for post in posts %}
 
 <div class="card" style="margin-bottom: 20px;">
   <div class="row no-gutters">
@@ -24,7 +24,12 @@
       <div class="card-block px-2">
         <h4 class="card-title">{{ post.Title }}</h4>
         <p class="card-text">{{ post.Body | striptags | safe | escape | truncatechars:100 }}</p>
-        <p class="card-text">Publicated at {{ formatDate(post.CreatedAt)  }}</p>
+        <p class="card-text">Publicated at {{ formatDate(post.CreatedAt) }} <br/>
+        Tags:<br/>
+          {% for tag in post.Tags %}
+            <span class="badge rounded-pill text-bg-secondary">{{ tag.Name }}</span>
+          {% endfor %}
+        </p>
         <a href="/posts/{{post.Id}}" target class="btn btn-primary stretched-link">Read
           post</a>
       </div>

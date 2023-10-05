@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
-        {% if Title == None %}
+        {% if title == None %}
             Blog do Marco
         {% else %}
-            {{ Title }} - Blog do Marco
+            {{ title }} - Blog do Marco
         {% endif %}
     </title>
     <link href="/assets/styles/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">

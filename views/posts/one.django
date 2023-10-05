@@ -9,11 +9,14 @@
 </style>
 
 <div class="post" style="max-width: 680px; word-wrap: anywhere; margin: 0 auto;">
-    <h1>{{ Post.Title }}</h1> 
-    <h2>{{ Post.Subtitle }}</h2> 
-    <p>{{ formatDate(Post.CreatedAt) }}</p> 
+    <h1>{{ post.Title }}</h1> 
+    <h2>{{ post.Subtitle }}</h2> 
+    <p>{{ formatDate(post.CreatedAt) }}</p> 
+    {% for tag in post.Tags %}
+      <span class="badge rounded-pill text-bg-secondary">{{ tag.Name }}</span>
+    {% endfor %}
     <hr/>
-    {{ Post.Body }} 
+    {{ post.Body }} 
 </div>
 
 
