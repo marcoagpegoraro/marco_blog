@@ -6,6 +6,7 @@ import (
 
 type Tag struct {
 	gorm.Model
-	Name  string
-	Posts []*Post `gorm:"many2many:posts_tags;"`
+	Id    uint   `gorm:"autoIncrement:false"`
+	Name  string `gorm:"primaryKey"`
+	Posts []Post `gorm:"many2many:posts_tags;"`
 }

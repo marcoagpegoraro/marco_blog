@@ -16,7 +16,7 @@
   const urlParams = new URLSearchParams(window.location.search);
   const pageSize = urlParams.get('page_size')
 
-  document.getElementById('postsPerPage').value = pageSize || 10
+  document.getElementById('postsPerPage').value = pageSize || 25
   
   document.getElementById('postsPerPage').onchange = function() {
     window.location = "?page_size=" + this.value;

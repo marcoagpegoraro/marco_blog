@@ -4,7 +4,7 @@
 <section style="max-width: 800px; margin: 0 auto;">
     <h1>{{ Title }}</h1>
 
-    <form id="form" action="/posts" method="post">
+    <form id="form" action="/posts" method="post" onkeydown="return event.key != 'Enter';">
         <div class="mb-3">
             <label for="PostTitle" class="form-label">Title</label>
             <input type="text" class="form-control" id="PostTitle" name="PostTitle" placeholder="Title">
@@ -13,6 +13,10 @@
         <div class="mb-3">
             <label for="PostSubtitle" class="form-label">Subtitle</label>
             <input type="text" class="form-control" id="PostSubtitle" name="PostSubtitle" placeholder="Subtitle">
+        </div>
+
+        <div class="mb-3">
+            {% include "partials/chip_input.django" %}
         </div>
 
         <div class="card" style="border-color: #DEE2E6;">

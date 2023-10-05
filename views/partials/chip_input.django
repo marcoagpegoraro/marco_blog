@@ -1,0 +1,53 @@
+<label for="tags" class="form-label">Tags</label>
+<input type="text" class="form-control" id="tags" aria-describedby="tagsHelp" onkeydown="handleTagsInputKeydown(event)">
+<div id="tagsHelp" class="form-text">Just type the tag and press enter.</div>
+<div id="chipsContainer"></div>
+<input style="display:none" id="PostTags" name="PostTags"></input>
+
+<script>
+  var tagsList = []
+
+  function updateChipsInputForm(){
+    var postTagsInputForm = document.getElementById("PostTags")
+    postTagsInputForm.value = tagsList
+  }
+
+  function updateChipsContainer(){
+    var chipsContainer = document.getElementById("chipsContainer")
+
+    var innerHTMLChipsContainer = ""
+
+    tagsList.forEach(tag => {
+      innerHTMLChipsContainer = innerHTMLChipsContainer + `
+        <span class="badge rounded-pill text-bg-secondary m-1">
+          ${tag} 
+          <i class="bi bi-x" tagValue="${tag}" onclick="handleDeleteTagChip(event)"></i>
+        </span>
+        `
+    })
+    console.log(innerHTMLChipsContainer)
+    chipsContainer.innerHTML = innerHTMLChipsContainer
+
+    updateChipsInputForm()
+  }
+
+  function handleTagsInputKeydown(event) {
+    if (event.key == "Enter") {
+      var chipValue = event.target.value;
+      tagsList.push(chipValue)
+      console.log(tagsList)
+
+      updateChipsContainer()
+
+      document.getElementById("tags").value = ""
+    }
+  }
+
+  function handleDeleteTagChip(event) {
+    var tagValue = event.target.attributes.tagValue.value
+    var tagToBeRemovedIndex = tagsList.indexOf(tagValue)
+    tagsList.splice(tagToBeRemovedIndex, 1)
+
+    updateChipsContainer()
+  }
+</script>

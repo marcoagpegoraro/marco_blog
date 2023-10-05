@@ -14,7 +14,7 @@ func GetIndex(c *fiber.Ctx) error {
 	pageSize := queryParams["page_size"]
 
 	if pageSize == "" {
-		pageSize = "10"
+		pageSize = "25"
 	}
 
 	pageSizeInt, _ := strconv.Atoi(pageSize)
