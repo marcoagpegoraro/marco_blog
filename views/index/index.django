@@ -15,11 +15,11 @@
 <div id="homePage" class="container">
   <section id="post-list" class="m-2" style="width: 100%;">
 
-    {% include "partials/postlist.django" %}
+    {% include "components/post_list.django" %}
   </section>
 
   <section id="about-me" class="m-2">
-    {% include "partials/authorcard.django" %}
+    {% include "components/author_card.django" %}
   </section>
 </div>
 

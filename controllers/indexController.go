@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -23,7 +22,6 @@ func GetIndex(c *fiber.Ctx) error {
 	var posts []models.Post
 	initializers.DB.Order("created_at desc").Limit(pageSizeInt).Preload("Tags").Find(&posts)
 
-	fmt.Println(posts[0].Tags[0].Name)
 	return c.Render("index/index", fiber.Map{
 		"title": "Home",
 		"posts": posts,

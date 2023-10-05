@@ -1,4 +1,4 @@
-{% include "partials/pagination.django" %}
+{% include "components/pagination.django" %}
 
 <style>
   .post-list-image {

@@ -16,7 +16,7 @@
         </div>
 
         <div class="mb-3">
-            {% include "partials/chip_input.django" %}
+            {% include "components/chip_input.django" %}
         </div>
 
         <div class="card" style="border-color: #DEE2E6;">
