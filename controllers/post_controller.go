@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/marcoagpegoraro/marco_blog/enum"
 	"github.com/marcoagpegoraro/marco_blog/helpers"
@@ -38,10 +40,7 @@ func PostPostIndex(c *fiber.Ctx) error {
 
 	initializers.DB.Create(&postModel)
 
-	return c.Render("posts/index", fiber.Map{
-		"title":     "Create new post",
-		"languages": enum.LanguageEnumValues(),
-	}, "layouts/main")
+	return c.Redirect(fmt.Sprintf("/posts/%d", postModel.Id))
 }
 
 func GetPostUpdate(c *fiber.Ctx) error {
@@ -68,8 +67,5 @@ func PostPostUpdate(c *fiber.Ctx) error {
 
 	initializers.DB.Omit("created_at").Save(&postModel)
 
-	return c.Render("posts/index", fiber.Map{
-		"title":     "Create new post",
-		"languages": enum.LanguageEnumValues(),
-	}, "layouts/main")
+	return c.Redirect(fmt.Sprintf("/posts/%d", postModel.Id))
 }
