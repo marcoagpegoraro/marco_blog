@@ -63,7 +63,9 @@ func GetImagesFromString(str string) []string {
 	var base64Images []string
 
 	for _, v := range matches {
-		base64Images = append(base64Images, v[1])
+		if v[1][0:4] == "data" {
+			base64Images = append(base64Images, v[1])
+		}
 	}
 
 	matches = nil

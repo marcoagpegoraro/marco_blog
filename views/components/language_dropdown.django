@@ -1,6 +1,12 @@
 <label for="PostLanguage" class="form-label">Post language</label>
 <select id="PostLanguage" name="PostLanguage"  class="form-select" aria-label="Post language">
-  {% for  key, values in languages %}
-    <option value="{{ key }}">{{ camelCaseToCapitalizeFirstWorldAndAddSpaces(values) }}</option>
+  {% for  key, value in languages %}
+    <option value="{{ key }}" 
+      {% if value == post.Language.String|default_if_none:""  %}
+        selected
+      {% endif %}
+    >
+      {{ camelCaseToCapitalizeFirstWorldAndAddSpaces(value) }}
+    </option>
   {% endfor %}
 </select>

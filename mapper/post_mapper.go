@@ -10,6 +10,7 @@ import (
 func MapPostRequestToPostModel(postRequest dto.PostRequest) models.Post {
 	postModel := new(models.Post)
 
+	postModel.Id = postRequest.PostId
 	postModel.Title = postRequest.PostTitle
 	postModel.Subtitle = postRequest.PostSubtitle
 	postModel.Body = postRequest.PostBody

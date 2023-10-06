@@ -2,66 +2,69 @@
 
 
 <section style="max-width: 800px; margin: 0 auto;">
-    <h1>{{ Title }}</h1>
+  <h1>{{ Title }}</h1>
 
-    <form id="form" action="/posts" method="post" onkeydown="return event.key != 'Enter';">
-        <div class="mb-3">
-            <label for="PostTitle" class="form-label">Title</label>
-            <input type="text" class="form-control" id="PostTitle" name="PostTitle" placeholder="Title">
-        </div>
+  <form id="form" action="" method="post" onkeydown="return event.key != 'Enter';">
+    <input style="display:none" id="PostId" name="PostId" value="{{ post.Id|default_if_none:"" }}"></input>
 
-        <div class="mb-3">
-            <label for="PostSubtitle" class="form-label">Subtitle</label>
-            <input type="text" class="form-control" id="PostSubtitle" name="PostSubtitle" placeholder="Subtitle">
-        </div>
+    <div class="mb-3">
+      <label for="PostTitle" class="form-label">Title</label>
+      <input type="text" class="form-control" id="PostTitle" name="PostTitle" placeholder="Title"
+        value="{{ post.Title|default_if_none:"" }}">
+    </div>
 
-        <div class="mb-3">
-          {% include "components/chip_input.django" %}
-        </div>
+    <div class="mb-3">
+      <label for="PostSubtitle" class="form-label">Subtitle</label>
+      <input type="text" class="form-control" id="PostSubtitle" name="PostSubtitle" placeholder="Subtitle"
+        value="{{ post.Subtitle|default_if_none:"" }}">
+    </div>
 
-        <div class="mb-3">
-          {% include "components/language_dropdown.django" %}
-        </div>
+    <div class="mb-3">
+      {% include "components/chip_input.django" %}
+    </div>
 
-        <div class="card" style="border-color: #DEE2E6;">
-            <div id="editor"></div>
-        </div>
+    <div class="mb-3">
+      {% include "components/language_dropdown.django" %}
+    </div>
 
-        <textarea style="display:none" id="PostBody" name="PostBody"></textarea>
+    <div class="card" style="border-color: #DEE2E6;">
+      <div id="editor"></div>
+    </div>
 
-        <div class="mb-3" style="display: flex; justify-content: right; margin-top: 16px;">
-            <button type="submit" name="PostIsDraft" value="true" class="btn btn-secondary m-2">Save as draft</button>
-            <button type="submit" name="PostIsDraft" value="false" class="btn btn-primary m-2">Post</button>
-        </div>
-    </form>
+    <textarea style="display:none" id="PostBody" name="PostBody"></textarea>
+
+    <div class="mb-3" style="display: flex; justify-content: right; margin-top: 16px;">
+      <button type="submit" name="PostIsDraft" value="true" class="btn btn-secondary m-2">Save as draft</button>
+      <button type="submit" name="PostIsDraft" value="false" class="btn btn-primary m-2">Post</button>
+    </div>
+  </form>
 
 </section>
 
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script>
-    var quill = new Quill('#editor', {
-        modules: {
-            toolbar: [
-                [{ header: [1, 2, false] }],
-                ['bold', 'italic', 'underline'],
-                ['image', 'code-block']
-            ]
-        },
-        placeholder: 'Compose an epic...',
-        theme: 'snow'
-    });
+  var quill = new Quill('#editor', {
+    modules: {
+      toolbar: [
+        [{ header: [1, 2, false] }],
+        ['bold', 'italic', 'underline'],
+        ['image', 'code-block']
+      ]
+    },
+    placeholder: 'Compose an epic...',
+    theme: 'snow'
+  });
 
-    // const value = `<h1>New content here</h1>`
-    // const delta = quill.clipboard.convert(value)
-    // quill.setContents(delta, 'silent')
+  const delta = quill.clipboard.convert(`{{ post.Body|default_if_none:"" }}`)
+  quill.setContents(delta, 'silent')
 
-    document.querySelector('form').addEventListener('submit', async (event) => {
-        var myEditor = document.querySelector('#editor')
-        var html = myEditor.children[0].innerHTML
+  document.querySelector('form').addEventListener('submit', async (event) => {
+    var myEditor = document.querySelector('#editor')
+    var html = myEditor.children[0].innerHTML
 
-        document.querySelector("#PostBody").value = html;
-    })
+    document.querySelector("#PostBody").value = html;
+  })
 
 </script>
 {% include "partials/footer.django" %}
