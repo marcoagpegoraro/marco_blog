@@ -7,10 +7,12 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/django/v3"
 	"github.com/marcoagpegoraro/marco_blog/helpers"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
+	"github.com/marcoagpegoraro/marco_blog/routes"
 )
 
 //go:embed views
@@ -39,16 +41,16 @@ func main() {
 		CaseSensitive: false,
 		StrictRouting: false,
 		ServerHeader:  "Fiber",
-		AppName:       "Blog do marco v1.0.0",
+		AppName:       "Marco's Blog v1.0.0",
 	})
 
 	app.Use(logger.New())
-
+	app.Use(cors.New())
 	//Configure App
 	app.Static("/", "./public")
 
 	//Routes
-	Routes(app)
+	routes.Routes(app)
 
 	//Start App
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))

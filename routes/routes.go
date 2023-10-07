@@ -1,4 +1,4 @@
-package main
+package routes
 
 import (
 	"github.com/gofiber/fiber/v2"
@@ -26,6 +26,9 @@ func Routes(app *fiber.App) {
 	}))
 
 	app.Get("/", controllers.GetIndex)
+
+	app.Get("/login.php", controllers.GetLogin)
+	app.Post("/login.php", controllers.PostLogin)
 
 	app.Get("/posts/add", controllers.GetPostIndex)
 	app.Post("/posts/add", controllers.PostPostIndex)

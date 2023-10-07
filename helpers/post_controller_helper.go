@@ -16,7 +16,7 @@ func GetIdParamFromUrl(c *fiber.Ctx) (string, error) {
 	id, ok := params["id"]
 
 	if !ok {
-		return "", c.Render("index/index", fiber.Map{
+		return "", c.Render("pages/index/index", fiber.Map{
 			"title": "Home",
 		}, "layouts/main")
 	}
