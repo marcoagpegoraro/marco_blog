@@ -2,7 +2,6 @@ package routes
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/redirect"
 	"github.com/marcoagpegoraro/marco_blog/controllers"
 )
 
@@ -16,20 +15,10 @@ import (
 // GET  /books/1/remove        -- maybe/probably optional
 // POST /books/1/remove        -- normally /book/1/edit will have a delete button that handles "are you sure..?" and posts here, redirects to /books
 
-func Routes(app *fiber.App) {
-	//redirect rules
-	app.Use(redirect.New(redirect.Config{
-		Rules: map[string]string{
-			"/posts": "/",
-		},
-		StatusCode: 301,
-	}))
+func RestrictedRoutes(app *fiber.App) {
+	app.Get("/posts/add", controllers.GetPostIndex)
+	app.Post("/posts/add", controllers.PostPostIndex)
 
-	app.Get("/", controllers.GetIndex)
-
-	app.Get("/login.php", controllers.GetLogin)
-	app.Post("/login.php", controllers.PostLogin)
-
-	app.Get("/posts/:id", controllers.GetOnePostIndex)
-
+	app.Get("/posts/:id/edit", controllers.GetPostUpdate)
+	app.Post("/posts/:id/edit", controllers.PostPostUpdate)
 }

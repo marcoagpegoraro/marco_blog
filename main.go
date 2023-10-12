@@ -52,6 +52,9 @@ func main() {
 	//Routes
 	routes.Routes(app)
 
+	//TODO: auth middlewar
+	routes.RestrictedRoutes(app)
+
 	//Start App
 	log.Fatal(app.Listen(":" + os.Getenv("PORT")))
 }
