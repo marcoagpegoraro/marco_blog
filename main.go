@@ -6,13 +6,13 @@ import (
 	"net/http"
 	"os"
 
-	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/django/v3"
 	"github.com/marcoagpegoraro/marco_blog/helpers"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
+	"github.com/marcoagpegoraro/marco_blog/middlewares"
 	"github.com/marcoagpegoraro/marco_blog/routes"
 )
 
@@ -47,20 +47,12 @@ func main() {
 
 	app.Use(logger.New())
 	app.Use(cors.New())
-	//Configure App
 	app.Static("/", "./public")
 
+	app.Use(middlewares.IsAuthenticated)
 	routes.Routes(app)
 
-	// JWT Middleware
-	app.Use(jwtware.New(jwtware.Config{
-		SigningKey:  jwtware.SigningKey{Key: []byte(os.Getenv("JWT_SECRET"))},
-		TokenLookup: "cookie:token",
-		ErrorHandler: func(c *fiber.Ctx, e error) error {
-			return c.Redirect(c.BaseURL())
-		},
-	}))
-
+	app.Use(middlewares.OnlyAuthenticated)
 	routes.RestrictedRoutes(app)
 
 	//Start App

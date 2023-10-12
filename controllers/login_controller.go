@@ -9,7 +9,6 @@ import (
 	"github.com/golang-jwt/jwt"
 	"github.com/marcoagpegoraro/marco_blog/dto"
 	"github.com/marcoagpegoraro/marco_blog/helpers"
-	"github.com/marcoagpegoraro/marco_blog/services"
 )
 
 func GetLogin(c *fiber.Ctx) error {
@@ -32,21 +31,17 @@ func PostLogin(c *fiber.Ctx) error {
 	isUsernameCorrect := helpers.CompareHashStr(usernameHash, loginRequest.Username)
 	isPasswordCorrect := helpers.CompareHashStr(passwordHash, loginRequest.Password)
 
-	posts := services.GetPosts(c)
-
 	if !isUsernameCorrect || !isPasswordCorrect {
-		return c.Render("pages/index/index", fiber.Map{
-			"title":    "Home",
-			"posts":    posts,
+		return c.RedirectToRoute("", fiber.Map{
 			"messages": []dto.MessageDto{{Message: "Username or password incorrect", Type: "warning"}},
-		}, "layouts/main")
+		})
 	}
 
 	// Create the Claims
 	claims := jwt.MapClaims{
-		"name":  loginRequest.Username,
-		"admin": true,
-		"exp":   time.Now().Add(time.Hour * 72).Unix(),
+		"Name":  loginRequest.Username,
+		"Admin": true,
+		"Exp":   time.Now().Add(time.Hour * 72).Unix(),
 	}
 
 	// Create token
@@ -55,11 +50,9 @@ func PostLogin(c *fiber.Ctx) error {
 	// Generate encoded token and send it as response.
 	t, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
 	if err != nil {
-		return c.Render("pages/index/index", fiber.Map{
-			"title":    "Home",
-			"posts":    posts,
+		return c.RedirectToRoute("", fiber.Map{
 			"messages": []dto.MessageDto{{Message: "Error creating token", Type: "danger"}},
-		}, "layouts/main")
+		})
 	}
 
 	c.Cookie(&fiber.Cookie{
@@ -69,9 +62,7 @@ func PostLogin(c *fiber.Ctx) error {
 		SameSite: "lax",
 	})
 
-	return c.Render("pages/index/index", fiber.Map{
-		"title":    "Home",
-		"posts":    posts,
+	return c.RedirectToRoute("", fiber.Map{
 		"messages": []dto.MessageDto{{Message: "Welcome!", Type: "success"}},
-	}, "layouts/main")
+	})
 }
