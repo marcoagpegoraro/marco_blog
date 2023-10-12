@@ -9,7 +9,9 @@
 </style>
 
 <div class="post" style="max-width: 680px; word-wrap: anywhere; margin: 0 auto;">
-    <button class="btn btn-warning" style="float: right;" onclick="location.href='/posts/{{post.Id}}/edit';">Edit post</button>
+    {% if is_auth %}
+      <button class="btn btn-warning" style="float: right;" onclick="location.href='/posts/{{post.Id}}/edit';">Edit post</button>
+    {% endif %}
     <h1>{{ post.Title }}</h1>  
     <h2>{{ post.Subtitle }}</h2> 
     <p>{{ formatDate(post.CreatedAt) }}</p> 

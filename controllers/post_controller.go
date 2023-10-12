@@ -14,6 +14,7 @@ func GetPostIndex(c *fiber.Ctx) error {
 	return c.Render("pages/posts/index", fiber.Map{
 		"title":     "Create new post",
 		"languages": enum.LanguageEnumValues(),
+		"is_auth":   c.Locals("is_auth"),
 	}, "layouts/main")
 }
 
@@ -27,8 +28,9 @@ func GetOnePostIndex(c *fiber.Ctx) error {
 	initializers.DB.Where("id = ?", id).Preload("Tags").First(&post)
 
 	return c.Render("pages/posts/one", fiber.Map{
-		"title": "Create new post",
-		"post":  post,
+		"title":   "Create new post",
+		"post":    post,
+		"is_auth": c.Locals("is_auth"),
 	}, "layouts/main")
 }
 
@@ -56,6 +58,7 @@ func GetPostUpdate(c *fiber.Ctx) error {
 		"title":     "Create new post",
 		"post":      post,
 		"languages": enum.LanguageEnumValues(),
+		"is_auth":   c.Locals("is_auth"),
 	}, "layouts/main")
 }
 

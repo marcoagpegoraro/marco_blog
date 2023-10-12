@@ -30,6 +30,8 @@ func Routes(app *fiber.App) {
 	app.Get("/login.php", controllers.GetLogin)
 	app.Post("/login.php", controllers.PostLogin)
 
+	app.Get("/logoff", controllers.GetLogoff)
+
 	app.Get("/posts/:id<int>", controllers.GetOnePostIndex)
 
 }

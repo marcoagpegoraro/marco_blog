@@ -66,3 +66,11 @@ func PostLogin(c *fiber.Ctx) error {
 		"messages": []dto.MessageDto{{Message: "Welcome!", Type: "success"}},
 	})
 }
+
+func GetLogoff(c *fiber.Ctx) error {
+	c.ClearCookie("token")
+
+	return c.RedirectToRoute("", fiber.Map{
+		"messages": []dto.MessageDto{{Message: "Log off with success!", Type: "success"}},
+	})
+}

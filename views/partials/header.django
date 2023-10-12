@@ -6,10 +6,13 @@
         Marco Antonio Gonçalves Pegoraro
       </span>
     </a>
-
+    
     <ul class="nav nav-pills">
       <li class="nav-item m-1"><a href="/" id="homeButtonNavbar" class="nav-link">Home</a></li>
-      <li class="nav-item m-1"><a href="/posts/add" id="createPostButtonNavbar" class="nav-link">Create post</a></li>
+      {% if is_auth %}
+        <li class="nav-item m-1"><a href="/posts/add" id="createPostButtonNavbar" class="nav-link">Create post</a></li>
+        <li class="nav-item m-1"><a href="/logoff" class="nav-link">Log off</a></li>
+      {% endif %}
       <li class="nav-item m-1">
         <a class="nav-link" style="background-color: #0A1929; color: white;" href="http://www.marcoagpegoraro.com.br" id="portfolioButtonNavbar" target="_blank">
           Portifolio website <i class="bi bi-box-arrow-up-right"></i>
