@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	jwtware "github.com/gofiber/contrib/jwt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
@@ -49,10 +50,17 @@ func main() {
 	//Configure App
 	app.Static("/", "./public")
 
-	//Routes
 	routes.Routes(app)
 
-	//TODO: auth middlewar
+	// JWT Middleware
+	app.Use(jwtware.New(jwtware.Config{
+		SigningKey:  jwtware.SigningKey{Key: []byte(os.Getenv("JWT_SECRET"))},
+		TokenLookup: "cookie:token",
+		ErrorHandler: func(c *fiber.Ctx, e error) error {
+			return c.Redirect(c.BaseURL())
+		},
+	}))
+
 	routes.RestrictedRoutes(app)
 
 	//Start App
