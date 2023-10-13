@@ -1,23 +1,35 @@
 {% include "partials/header.django" %}
 
 <style>
-    .post img { 
-        max-width: 100%; 
-        height: auto; 
-    }
+
+  .post{
+    max-width: 680px; 
+    word-wrap: anywhere; 
+    margin: 50px auto 50px auto;
+  }
+  
+  .post img { 
+    max-width: 100%; 
+    height: auto; 
+  }
+
+  .post-title, .post-created-at { 
+    margin: 0; 
+  }
     
 </style>
 
-<div class="post" style="max-width: 680px; word-wrap: anywhere; margin: 0 auto;">
+<div class="post">
     {% if is_auth %}
-      <button class="btn btn-warning" style="float: right;" onclick="location.href='/posts/{{post.Id}}/edit';">Edit post</button>
+      <button class="button style-orange" style="float: right;" onclick="location.href='/posts/{{post.Id}}/edit';">Edit post</button>
     {% endif %}
-    <h1>{{ post.Title }}</h1>  
-    <h2>{{ post.Subtitle }}</h2> 
-    <p>{{ formatDate(post.CreatedAt) }}</p> 
-    <p>{{ camelCaseToCapitalizeFirstWorldAndAddSpaces(post.Language.String) }}</p> 
+    <h1 class="post-title">{{ post.Title }}</h1>  
+    <h2 class="post-subtitle">{{ post.Subtitle }}</h2> 
+    <p class="post-created-at">{{ formatDate(post.CreatedAt) }}</p> 
+    <p class="post-language">Language: {{ camelCaseToCapitalizeFirstWorldAndAddSpaces(post.Language.String) }}</p> 
+    Tags: 
     {% for tag in post.Tags %}
-      <span class="badge rounded-pill text-bg-secondary">{{ tag.Name }}</span>
+      <span class="badge style-green edge-circle" style="bottom: 1px; position: relative;">{{ tag.Name }}</span>
     {% endfor %}
     <hr/>
     {{ post.Body }} 

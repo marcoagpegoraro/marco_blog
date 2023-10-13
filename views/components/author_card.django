@@ -6,7 +6,7 @@
     <img src="/assets/images/profile-pic.jpg" style="
                       position: relative;
                       border-radius: 50%;
-                      border: 1px solid #CCCCCC;
+                      border: 1px solid white;
                       width: 100px;
                       margin-top: -70px;
                       margin-left: calc(50% - 50px);" alt="Profile picture">
