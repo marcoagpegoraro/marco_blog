@@ -1,5 +1,7 @@
-<label for="tags">Tags</label>
+<label for="tags" class="form-label">Tags</label>
+<div class="input-wrapper">
 <input type="text" id="tags" aria-describedby="tagsHelp" onkeydown="handleTagsInputKeydown(event)">
+</div>
 <div id="tagsHelp">Just type the tag and press enter.</div>
 <div id="chipsContainer">
 </div>
