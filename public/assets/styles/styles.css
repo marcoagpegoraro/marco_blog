@@ -1,5 +1,11 @@
-@import url("http://fonts.googleapis.com/css?family=Roboto:400,300,700");
+/* @import url("http://fonts.googleapis.com/css?family=Roboto:400,300,700");
 
 body {
     font-family: 'Roboto', sans-serif !important;
+  } */
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      @extend %dark-mode;
+    }
   }

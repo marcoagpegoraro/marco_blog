@@ -1,26 +1,19 @@
-<div class="container">
-  <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-light text-decoration-none">
-      <i class="bi bi-code-slash" style="margin-right: 10px; font-size: 2rem;"></i>
-      <span class="fs-4">
-        Marco Antonio Gonçalves Pegoraro
-      </span>
-    </a>
-    
-    <ul class="nav nav-pills">
-      <li class="nav-item m-1"><a href="/" id="homeButtonNavbar" class="nav-link">Home</a></li>
-      {% if is_auth %}
-        <li class="nav-item m-1"><a href="/posts/add" id="createPostButtonNavbar" class="nav-link">Create post</a></li>
-        <li class="nav-item m-1"><a href="/logoff" class="nav-link">Log off</a></li>
-      {% endif %}
-      <li class="nav-item m-1">
-        <a class="nav-link" style="background-color: #0A1929; color: white;" href="http://www.marcoagpegoraro.com.br" id="portfolioButtonNavbar" target="_blank">
-          Portifolio website <i class="bi bi-box-arrow-up-right"></i>
-        </a>
-      </li>
-    </ul>
-  </header>
-</div>
+<nav class="menu-items-wrapper navbar style-dark"> 
+  <a class="navbar-logo" href="/"> 
+    <figure style="height: 100%;">
+      <img src="https://avatars.akamai.steamstatic.com/d6eb57269701d4f9c04ada28cf3c06b7825d7565_full.jpg" alt="logo"> 
+    </figure>
+  </a>
+  <ul class="links">
+    <li class="menu-item" id="homeButtonNavbar"><a href="/">Marco Pegoraro</a> </li>
+    {% if is_auth %}
+      <li class="menu-item" id="createPostButtonNavbar"> <a href="/posts/add">Create post</a> </li>
+      <li class="menu-item"> <a href="/logoff">Log off</a> </li>
+    {% endif %}
+    <li class="menu-item"> <a target="_blank" href="http://www.marcoagpegoraro.com.br">Portifolio website</a> </li>
+  </ul>
+</nav>
+
 
 <script>
   const currentUrl = window.location.pathname;

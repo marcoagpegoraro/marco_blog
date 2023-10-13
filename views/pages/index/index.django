@@ -1,6 +1,19 @@
 {% include "partials/header.django" %}
 
 <style>
+ 
+  #post-list{
+    margin:20px;
+  }
+
+  #about-me{
+    margin:20px;
+  }
+
+  #homePage{
+    justify-content: center;
+  }
+
   @media (min-width: 992px) {
   #homePage {
     display: flex;
@@ -12,8 +25,8 @@
 
 </style>
 
-<div id="homePage" class="container">
-  <section id="post-list" class="m-2" style="width: 100%;">
+<div id="homePage">
+  <section id="post-list" class="m-2">
 
     {% include "components/post_list.django" %}
   </section>

@@ -1,40 +1,31 @@
-{% include "components/pagination.django" %}
 
-<style>
-  .post-list-image {
-    width: 200px;
-    height: 200px;
-  }
-  .post-list-image img {
-    max-width: 200px;
-    height: 100%;
-    object-fit: cover;
-  }
-</style>
+
+{% include "components/pagination.django" %}
 
 {% for post in posts %}
 
-<div class="card" style="margin-bottom: 20px;">
-  <div class="row no-gutters">
-    <div class="col-auto post-list-image">
-      <!-- <img src="//placehold.it/200" class="img-fluid" alt=""> -->
+<article class="card horizontal" style="max-width: 800px; margin: 20px 0">
+  <header class="card-header">
+    <div class="card-badges">
+      {% for tag in post.Tags %}
+        <a href="#" class="badge style-green">{{ tag.Name }}</a> <!-- todo: implement search by tag-->
+      {% endfor %}
+    </div>
+    <div style="height: 200px" class="card-image">
       {{ getFirstImageUrlFromString(post.Body) }}
     </div>
-    <div class="col">
-      <div class="card-block px-2">
-        <h4 class="card-title">{{ post.Title }}</h4>
-        <p class="card-text">{{ post.Body | striptags | safe | escape | truncatechars:100 }}</p>
-        <p class="card-text">Publicated at {{ formatDate(post.CreatedAt) }} <br/>
-        <p class="card-text">Language: {{ camelCaseToCapitalizeFirstWorldAndAddSpaces(post.Language.String) }} <br/>
-          Tags:<br/>
-          {% for tag in post.Tags %}
-            <span class="badge rounded-pill text-bg-secondary">{{ tag.Name }}</span>
-          {% endfor %}
-        </p>
-        <a href="/posts/{{post.Id}}" target class="btn btn-primary stretched-link">Read
-          post</a>
-      </div>
+    {% comment %} <img  src="https://picsum.photos/200/300" alt="Card image" /> {% endcomment %}
+  </header>
+  <div class="card-right">
+    <div class="card-body">
+      <h2 class="card-title">{{ post.Title }}</h2>
+      {{ post.Body | striptags | safe | escape | truncatechars:150 }}
     </div>
+
+    <footer class="card-footer">
+      <a href="/posts/{{post.Id}}" class="button style-accent push-right">Read more</a>
+    </footer>
   </div>
-</div>
+</article>
+
 {% endfor %}
