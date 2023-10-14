@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/marcoagpegoraro/marco_blog/dto"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 	"github.com/marcoagpegoraro/marco_blog/models"
 )
@@ -31,20 +30,6 @@ func GetTotalPostsCount(c *fiber.Ctx) int64 {
 func GetNumberOfPages(totalPostsCount int64, numberOfPosts int) int {
 	d := float64(totalPostsCount) / float64(numberOfPosts)
 	return int(math.Ceil(d))
-}
-
-func CalculatePagination(numberOfPages int, currentPage int) []dto.PaginationButton {
-
-	var paginationButtons []dto.PaginationButton
-	buttonLimit := 5
-
-	if numberOfPages <= buttonLimit {
-		for i := 1; i <= numberOfPages; i++ {
-			paginationButtons = append(paginationButtons, dto.PaginationButton{PageNumber: i, IsCurrentPage: i == currentPage})
-		}
-	}
-
-	return paginationButtons
 }
 
 func GetPosts(c *fiber.Ctx, currentPage int, pageSize int) []models.Post {

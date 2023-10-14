@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/marcoagpegoraro/marco_blog/helpers"
 	"github.com/marcoagpegoraro/marco_blog/services"
 )
 
@@ -13,7 +14,7 @@ func GetIndex(c *fiber.Ctx) error {
 	totalPostsCount := services.GetTotalPostsCount(c)
 
 	numberOfPages := services.GetNumberOfPages(totalPostsCount, pageSize)
-	paginationButtons := services.CalculatePagination(numberOfPages, currentPage)
+	paginationButtons := helpers.CalculatePagination(numberOfPages, currentPage, 5)
 
 	return c.Render("pages/index/index", fiber.Map{
 		"title":              "Home",
