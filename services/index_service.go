@@ -1,6 +1,8 @@
 package services
 
 import (
+	"fmt"
+	"math"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -26,7 +28,12 @@ func GetTotalPostsCount(c *fiber.Ctx) int64 {
 	return count
 }
 
-func GetPosts(c *fiber.Ctx) []models.Post {
+func GetNumberOfPages(totalPostsCount int64, numberOfPosts int) int {
+	d := float64(totalPostsCount) / float64(numberOfPosts)
+	return int(math.Ceil(d))
+}
+
+func GetPosts(c *fiber.Ctx, currentPage int) []models.Post {
 
 	pageSize := getPageSize(c)
 
@@ -42,7 +49,7 @@ func GetPosts(c *fiber.Ctx) []models.Post {
 		dbQuery.Where("is_draft = ?", showDrafts)
 	}
 
-	dbQuery.Limit(pageSize)
+	dbQuery.Limit(pageSize).Offset(pageSize * (currentPage - 1))
 	dbQuery.Preload("Tags")
 	dbQuery.Find(&posts)
 
@@ -59,6 +66,19 @@ func getPageSize(c *fiber.Ctx) int {
 
 	pageSizeInt, _ := strconv.Atoi(pageSize)
 	return pageSizeInt
+}
+
+func GetCurrentPage(c *fiber.Ctx) int {
+	queryParams := c.Queries()
+	page := queryParams["page"]
+
+	if page == "" {
+		page = "1"
+	}
+
+	pageInt, _ := strconv.Atoi(page)
+	fmt.Print(pageInt)
+	return pageInt
 }
 
 func getShowDrafts(c *fiber.Ctx) bool {

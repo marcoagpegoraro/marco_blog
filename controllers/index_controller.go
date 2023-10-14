@@ -6,13 +6,18 @@ import (
 )
 
 func GetIndex(c *fiber.Ctx) error {
-	posts := services.GetPosts(c)
+	currentPage := services.GetCurrentPage(c)
+
+	posts := services.GetPosts(c, currentPage)
 	totalPostsCount := services.GetTotalPostsCount(c)
 
+	numberOfPages := services.GetNumberOfPages(totalPostsCount, len(posts))
+
 	return c.Render("pages/index/index", fiber.Map{
-		"title":           "Home",
-		"posts":           posts,
-		"totalPostsCount": totalPostsCount,
-		"is_auth":         c.Locals("is_auth"),
+		"title":         "Home",
+		"posts":         posts,
+		"currentPage":   currentPage,
+		"numberOfPages": numberOfPages,
+		"is_auth":       c.Locals("is_auth"),
 	}, "layouts/main")
 }
