@@ -14,7 +14,6 @@
     <div style="height: 200px" class="card-image">
       {{ getFirstImageUrlFromString(post.Body) }}
     </div>
-    {% comment %} <img  src="https://picsum.photos/200/300" alt="Card image" /> {% endcomment %}
   </header>
   <div class="card-right">
     <div class="card-body">
@@ -23,7 +22,7 @@
     </div>
 
     <footer class="card-footer">
-      <a href="/posts/{{post.Id}}" class="button style-accent push-right">Read more</a>
+      <a href="/posts/{{post.Id}}" class="button style-accent push-right size-lg">Read more</a>
     </footer>
   </div>
 </article>

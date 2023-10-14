@@ -1,24 +1,56 @@
-<div class="">
-  <div class="">
-    <label for="postsPerPage" class="">Posts per page</label>
+{{ totalPostsCount }}
+
+<section style="display: flex;">
+  {% if is_auth %}
+  <div>
+    <label for="showDrafts" class="toggle-wrapper" style="display: inline;">
+      <span>Show drafts</span>
+      <br>
+      <input id="showDrafts" type="checkbox" name="showDrafts" role="switch" />
+      <span class="check size-2x" style="
+        margin-top: 6px;
+        border-width: 2.5px;
+        height: 48px;
+      "></span>      
+    </label>
   </div>
-  <div class="col-auto">
-    <select id="postsPerPage" class="" aria-label="Default select example">
+  {% endif %}
+
+  <div>
+    <label for="postsPerPage" class="form-label">Posts per page</label>
+    <select id="postsPerPage" class="" aria-label="Posts per page">
       <option value="10">10</option>
       <option value="25">25</option>
       <option value="50">50</option>
       <option value="100">100</option>
     </select>
   </div>
-</div>
-
+</section>
 <script>
   const urlParams = new URLSearchParams(window.location.search);
-  const pageSize = urlParams.get('page_size')
 
-  document.getElementById('postsPerPage').value = pageSize || 25
-  
-  document.getElementById('postsPerPage').onchange = function() {
-    window.location = "?page_size=" + this.value;
-  };
+  const pageSize = urlParams.get('page_size') || 25
+  const postPerPageElement = document.getElementById('postsPerPage')
+  postPerPageElement.value = pageSize
+  postPerPageElement.onchange = function() {
+    urlParams.delete("page_size");
+    urlParams.append('page_size', this.value)
+    window.location = "?" + urlParams.toString()
+
+  }
+
+  {% if is_auth %}
+  const showDrafts = urlParams.get('show_drafts') || 'false'
+  const showDraftsElement = document.getElementById('showDrafts')
+  if(showDrafts == 'true'){
+    showDraftsElement.checked = true
+  }
+  showDraftsElement.onchange = function() {
+    urlParams.delete("show_drafts");
+    urlParams.append('show_drafts', showDraftsElement.checked)
+    window.location = "?" + urlParams.toString()
+  }
+  {% endif %}
+
+
 </script>
