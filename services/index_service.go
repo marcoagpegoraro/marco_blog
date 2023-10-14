@@ -1,11 +1,11 @@
 package services
 
 import (
-	"fmt"
 	"math"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/marcoagpegoraro/marco_blog/dto"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 	"github.com/marcoagpegoraro/marco_blog/models"
 )
@@ -33,9 +33,21 @@ func GetNumberOfPages(totalPostsCount int64, numberOfPosts int) int {
 	return int(math.Ceil(d))
 }
 
-func GetPosts(c *fiber.Ctx, currentPage int) []models.Post {
+func CalculatePagination(numberOfPages int, currentPage int) []dto.PaginationButton {
 
-	pageSize := getPageSize(c)
+	var paginationButtons []dto.PaginationButton
+	buttonLimit := 5
+
+	if numberOfPages <= buttonLimit {
+		for i := 1; i <= numberOfPages; i++ {
+			paginationButtons = append(paginationButtons, dto.PaginationButton{PageNumber: i, IsCurrentPage: i == currentPage})
+		}
+	}
+
+	return paginationButtons
+}
+
+func GetPosts(c *fiber.Ctx, currentPage int, pageSize int) []models.Post {
 
 	var posts []models.Post
 	dbQuery := initializers.DB.Order("created_at desc")
@@ -56,7 +68,7 @@ func GetPosts(c *fiber.Ctx, currentPage int) []models.Post {
 	return posts
 }
 
-func getPageSize(c *fiber.Ctx) int {
+func GetPageSize(c *fiber.Ctx) int {
 	queryParams := c.Queries()
 	pageSize := queryParams["page_size"]
 
@@ -77,7 +89,6 @@ func GetCurrentPage(c *fiber.Ctx) int {
 	}
 
 	pageInt, _ := strconv.Atoi(page)
-	fmt.Print(pageInt)
 	return pageInt
 }
 

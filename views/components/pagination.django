@@ -27,15 +27,16 @@
 
   <div>
 
-  <div class="button-group" style="align-self: center;">
-    {{ currentPage }}
-    {{ numberOfPages }}
-
-    <a href="#" class="button bordered">1</a>
-    <a href="#" class="button bordered">2</a>
-    <a href="#" class="button bordered active style-accent">2</a>
-    <a href="#" class="button bordered">14</a>
-    <a href="#" class="button bordered">Last</a>
+  <div class="button-group" style="align-self: center; cursor: pointer;">
+    {% for pagination_button in pagination_buttons %}
+      <a onclick="handlePaginationButtonClick({{pagination_button.PageNumber}})" class="button bordered 
+      {% if pagination_button.IsCurrentPage  %}
+        active style-accent
+      {% endif %}
+      ">
+        {{ pagination_button.PageNumber }}
+      </a>
+    {% endfor %}
   </div>
 </div>
 
@@ -67,6 +68,12 @@
     window.location = "?" + urlParams.toString()
   }
   {% endif %}
+
+  function handlePaginationButtonClick(pageNumber){
+    urlParams.delete("page");
+    urlParams.append('page', pageNumber)
+    window.location = "?" + urlParams.toString()
+  }
 
 
 </script>
