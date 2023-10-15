@@ -27,6 +27,12 @@ func GetOnePostIndex(c *fiber.Ctx) error {
 	var post models.Post
 	initializers.DB.Where("id = ?", id).Preload("Tags").First(&post)
 
+	isAuth := c.Locals("is_auth").(bool)
+
+	if !isAuth && post.IsDraft {
+		c.RedirectToRoute("", fiber.Map{})
+	}
+
 	return c.Render("pages/posts/one", fiber.Map{
 		"title":   "Create new post",
 		"post":    post,
@@ -68,7 +74,9 @@ func PostPostUpdate(c *fiber.Ctx) error {
 		return err
 	}
 
-	initializers.DB.Omit("created_at").Save(&postModel)
+	saveResult := initializers.DB.Omit("created_at").Save(&postModel)
+
+	fmt.Println(saveResult)
 
 	return c.Redirect(fmt.Sprintf("/posts/%d", postModel.Id))
 }
