@@ -3,9 +3,11 @@
 <style>
 
   .post{
-    max-width: 680px; 
+    max-width: 720px; 
     word-wrap: anywhere; 
     margin: 50px auto 50px auto;
+    padding-left: 20px;
+    padding-right: 20px;
   }
   
   .post img { 

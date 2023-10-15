@@ -8,6 +8,8 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/csrf"
+	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/template/django/v3"
 	"github.com/marcoagpegoraro/marco_blog/helpers"
@@ -45,8 +47,10 @@ func main() {
 		AppName:       "Marco's Blog v1.0.0",
 	})
 
+	app.Use(favicon.New())
 	app.Use(logger.New())
 	app.Use(cors.New())
+	app.Use(csrf.New())
 	app.Static("/", "./public")
 
 	app.Use(middlewares.IsAuthenticated)

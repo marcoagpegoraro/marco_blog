@@ -1,10 +1,28 @@
 
 
-{% include "components/pagination.django" %}
 
 {% for post in posts %}
 
-<article class="card horizontal" style="max-width: 800px; margin: 20px 0">
+<style>
+  .post-card{
+    width: 100%; 
+    margin: 20px 0;
+  }
+
+  .card-image img {
+    object-fit: cover;
+    max-height: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .post-card{
+      max-width: 800px; 
+      margin: 20px 0;
+    }
+  }
+</style>
+
+<article class="card horizontal post-card">
   <header class="card-header">
     <div class="card-badges">
       {% for tag in post.Tags %}
@@ -28,6 +46,3 @@
 </article>
 
 {% endfor %}
-
-{% include "components/pagination.django" %}
-{% include "components/pagination_javascript.django" %}

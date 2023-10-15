@@ -2,16 +2,15 @@
 
 <style>
  
-  #post-list{
-    margin:20px;
-  }
-
-  #about-me{
+  #post-list-section, #about-me {
     margin:20px;
   }
 
   #homePage{
     justify-content: center;
+  }
+  #aboutMeCard {
+    margin: 0 auto;
   }
 
   @media (min-width: 992px) {
@@ -26,9 +25,14 @@
 </style>
 
 <div id="homePage">
-  <section id="post-list" class="m-2">
+  <section id="post-list-section" class="m-2">
+    {% include "components/pagination.django" %}
+    <section id="post-list">
+      {% include "components/post_list.django" %}
+    </section>
+    {% include "components/pagination.django" %}
+    {% include "components/pagination_javascript.django" %}
 
-    {% include "components/post_list.django" %}
   </section>
 
   <section id="about-me" class="m-2">
