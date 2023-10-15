@@ -5,7 +5,7 @@
     <label for="showDrafts" class="toggle-wrapper" style="display: inline;">
       <span>Show drafts</span>
       <br>
-      <input id="showDrafts" type="checkbox" name="showDrafts" role="switch" />
+      <input id="showDrafts" type="checkbox" name="showDrafts" role="switch" class="show-drafts-pagination" />
       <span class="check size-2x" style="
         margin-top: 6px;
         border-width: 2.5px;
@@ -17,7 +17,7 @@
 
   <div>
     <label for="postsPerPage" class="form-label">Posts per page</label>
-    <select id="postsPerPage" class="" aria-label="Posts per page">
+    <select id="postsPerPage" class="posts-per-page-pagination" aria-label="Posts per page">
       <option value="10">10</option>
       <option value="25">25</option>
       <option value="50">50</option>
@@ -27,53 +27,20 @@
 
   <div>
 
-  <div class="button-group" style="align-self: center; cursor: pointer;">
-    {% for pagination_button in pagination_buttons %}
-      <a onclick="handlePaginationButtonClick({{pagination_button.PageNumber}})" class="button bordered 
-      {% if pagination_button.IsCurrentPage  %}
-        active style-accent
-      {% endif %}
-      ">
+    <div>
+      Pages
+      <div class="{% if pagination_buttons|length != 1  %}button-group{% endif %}" 
+        style="align-self: center; cursor: pointer;">
+      {% for pagination_button in pagination_buttons %}
+        <a onclick="handlePaginationButtonClick({{pagination_button.PageNumber}})" 
+          class="button bordered 
+            {% if pagination_button.IsCurrentPage  %}active style-accent{% endif %}
+        ">
         {{ pagination_button.PageNumber }}
       </a>
     {% endfor %}
   </div>
+  <div>
 </div>
 
 </section>
-
-
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-
-  const pageSize = urlParams.get('page_size') || 25
-  const postPerPageElement = document.getElementById('postsPerPage')
-  postPerPageElement.value = pageSize
-  postPerPageElement.onchange = function() {
-    urlParams.delete("page_size");
-    urlParams.append('page_size', this.value)
-    window.location = "?" + urlParams.toString()
-
-  }
-
-  {% if is_auth %}
-  const showDrafts = urlParams.get('show_drafts') || 'false'
-  const showDraftsElement = document.getElementById('showDrafts')
-  if(showDrafts == 'true'){
-    showDraftsElement.checked = true
-  }
-  showDraftsElement.onchange = function() {
-    urlParams.delete("show_drafts");
-    urlParams.append('show_drafts', showDraftsElement.checked)
-    window.location = "?" + urlParams.toString()
-  }
-  {% endif %}
-
-  function handlePaginationButtonClick(pageNumber){
-    urlParams.delete("page");
-    urlParams.append('page', pageNumber)
-    window.location = "?" + urlParams.toString()
-  }
-
-
-</script>

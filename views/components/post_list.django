@@ -28,3 +28,6 @@
 </article>
 
 {% endfor %}
+
+{% include "components/pagination.django" %}
+{% include "components/pagination_javascript.django" %}

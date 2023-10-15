@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/marcoagpegoraro/marco_blog/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -28,6 +27,6 @@ func ConnectToDatabase() {
 }
 
 func SyncDB() {
-	DB.AutoMigrate(&models.Post{})
-	DB.AutoMigrate(&models.Tag{})
+	// DB.AutoMigrate(&models.Post{})
+	// DB.AutoMigrate(&models.Tag{})
 }
