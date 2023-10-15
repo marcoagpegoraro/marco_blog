@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/csrf"
 	"github.com/gofiber/fiber/v2/middleware/favicon"
@@ -50,7 +51,10 @@ func main() {
 	app.Use(favicon.New())
 	app.Use(logger.New())
 	app.Use(cors.New())
-	app.Use(csrf.New())
+	app.Use(compress.New())
+	app.Use(csrf.New(csrf.Config{
+		KeyLookup: "cookie:csrf_",
+	}))
 	app.Static("/", "./public")
 
 	app.Use(middlewares.IsAuthenticated)
