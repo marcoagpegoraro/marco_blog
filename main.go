@@ -44,7 +44,7 @@ func main() {
 		Prefork:       true,
 		CaseSensitive: false,
 		StrictRouting: false,
-		ServerHeader:  "Fiber",
+		ServerHeader:  "Apache/2.4.1 (Unix)",
 		AppName:       "Marco's Blog v1.0.0",
 	})
 
@@ -58,6 +58,7 @@ func main() {
 	app.Static("/", "./public")
 
 	app.Use(middlewares.IsAuthenticated)
+	routes.ApiRoutes(app)
 	routes.Routes(app)
 
 	app.Use(middlewares.OnlyAuthenticated)

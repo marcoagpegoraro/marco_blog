@@ -10,8 +10,8 @@
             {{ title }} - Marco's blog
         {% endif %}
     </title>
-    <link type="text/css" href="https://getbootstrap.com/1.0.0/assets/css/bootstrap-1.0.0.min.css">
-    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+    <link href="https://getbootstrap.com/1.0.0/assets/css/bootstrap-1.0.0.min.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="https://www.apachefriends.org/images/favicon-18f9bd42.png">
 </head>
 <body >
     {{embed}}
