@@ -2,7 +2,6 @@ package main
 
 import (
 	"embed"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -41,12 +40,12 @@ func main() {
 
 	//Setup app
 	app := fiber.New(fiber.Config{
-		Views:         engine,
-		Prefork:       true,
+		Views: engine,
+		// Prefork:       true,
 		CaseSensitive: false,
 		StrictRouting: false,
-		// ServerHeader:  "Apache/2.4.1 (Unix)",
-		// AppName:       "Marco's Blog v1.0.0",
+		ServerHeader:  "Apache/2.4.1 (Unix)",
+		AppName:       "Marco's Blog v1.0.0",
 	})
 
 	app.Use(favicon.New())
@@ -66,7 +65,5 @@ func main() {
 	routes.RestrictedRoutes(app)
 
 	//Start App
-	appListen := app.Listen("0.0.0.0:" + os.Getenv("PORT"))
-	fmt.Println(appListen)
-	log.Fatal(appListen)
+	log.Fatal(app.Listen("0.0.0.0:" + os.Getenv("PORT")))
 }
