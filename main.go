@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -65,5 +66,7 @@ func main() {
 	routes.RestrictedRoutes(app)
 
 	//Start App
-	log.Fatal(app.Listen("0.0.0.0:" + os.Getenv("PORT")))
+	appListen := app.Listen("0.0.0.0:" + os.Getenv("PORT"))
+	fmt.Println(appListen)
+	log.Fatal(appListen)
 }
