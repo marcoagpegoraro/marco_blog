@@ -1,4 +1,4 @@
-<nav class="menu-items-wrapper navbar style-blue scrollable-x"> 
+<nav class="menu-items-wrapper navbar style-dark scrollable-x"> 
   <a class="navbar-logo" href="/"> 
     <figure style="height: 100%;">
       <img src="https://avatars.akamai.steamstatic.com/d6eb57269701d4f9c04ada28cf3c06b7825d7565_full.jpg" alt="logo"> 
@@ -10,8 +10,8 @@
       <li class="menu-item" id="createPostButtonNavbar"> <a href="/posts/add">Create post</a> </li>
       <li class="menu-item"> <a href="/logoff">Log off</a> </li>
     {% endif %}
-    <li class="menu-item two-layer-button style-dark">
-      <a target="_blank" href="http://www.marcoagpegoraro.com.br">
+    <li class="menu-item style-dark" style="cursor: pointer;">
+      <a target="_blank" href="https://marcoagpegoraro.github.io">
         Portifolio website
       </a>
       <span class="secondary-text">
