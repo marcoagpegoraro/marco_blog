@@ -3,7 +3,7 @@
 <style>
   
   body {
-    background-image: radial-gradient(circle at 1px 1px, #2E4051 1px, transparent 0);
+    background-image: radial-gradient(circle at 1px 1px, #CED9E3 1px, transparent 0);
     background-size: 40px 40px;
   }
 

@@ -1,5 +1,5 @@
 
-<section style="display: flex; justify-content: center;">
+<section style="display: flex; justify-content: space-around;">
   {% if is_auth %}
   <div>
     <label for="showDrafts" class="toggle-wrapper" style="display: inline;">
@@ -22,6 +22,16 @@
       <option value="25">25</option>
       <option value="50">50</option>
       <option value="100">100</option>
+    </select>
+  </div>
+
+  <div>
+    <label for="language" class="form-label">Language</label>
+    <select id="language" class="language-pagination" aria-label="Posts per page">
+      <option value="All">All</option>
+      <option value="English">English</option>
+      <option value="BrazilianPortuguese">Portuguese</option>
+      <option value="Italian">Italian</option>
     </select>
   </div>
 

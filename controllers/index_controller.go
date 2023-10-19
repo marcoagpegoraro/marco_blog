@@ -9,8 +9,9 @@ import (
 func GetIndex(c *fiber.Ctx) error {
 	currentPage := services.GetCurrentPage(c)
 	pageSize := services.GetPageSize(c)
+	language := services.GetLanguage(c)
 
-	posts := services.GetPosts(c, currentPage, pageSize)
+	posts := services.GetPosts(c, currentPage, pageSize, language)
 	totalPostsCount := services.GetTotalPostsCount(c)
 
 	numberOfPages := services.GetNumberOfPages(totalPostsCount, pageSize)

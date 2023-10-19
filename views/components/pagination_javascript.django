@@ -29,6 +29,18 @@
   }
   {% endif %}
 
+
+  const language = urlParams.get('language') || 'All'
+  const languageElements = document.getElementsByClassName('language-pagination')
+  for(var i = 0; i < languageElements.length; i++){
+    languageElements[i].value = language
+    languageElements[i].onchange = function() {
+        urlParams.delete("language");
+        urlParams.append('language', this.value)
+        window.location = "?" + urlParams.toString()  
+      }
+  }
+
   function handlePaginationButtonClick(pageNumber){
     urlParams.delete("page");
     urlParams.append('page', pageNumber)

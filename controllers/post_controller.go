@@ -34,7 +34,7 @@ func GetOnePostIndex(c *fiber.Ctx) error {
 	}
 
 	return c.Render("pages/posts/one", fiber.Map{
-		"title":   "Create new post",
+		"title":   post.Title,
 		"post":    post,
 		"is_auth": c.Locals("is_auth"),
 	}, "layouts/main")

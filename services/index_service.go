@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/marcoagpegoraro/marco_blog/enum"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 	"github.com/marcoagpegoraro/marco_blog/models"
 )
@@ -32,7 +33,7 @@ func GetNumberOfPages(totalPostsCount int64, numberOfPosts int) int {
 	return int(math.Ceil(d))
 }
 
-func GetPosts(c *fiber.Ctx, currentPage int, pageSize int) []models.Post {
+func GetPosts(c *fiber.Ctx, currentPage int, pageSize int, language string) []models.Post {
 
 	var posts []models.Post
 	dbQuery := initializers.DB.Order("created_at desc")
@@ -44,6 +45,19 @@ func GetPosts(c *fiber.Ctx, currentPage int, pageSize int) []models.Post {
 		dbQuery.Where("is_draft = ?", "false")
 	} else {
 		dbQuery.Where("is_draft = ?", showDrafts)
+	}
+
+	if language != "All" {
+		var languageKey uint8
+		for k, v := range enum.LanguageEnumValues() {
+			if v == language {
+				languageKey = k
+				break
+			}
+		}
+		if languageKey != 0 {
+			dbQuery.Where("language = ?", languageKey)
+		}
 	}
 
 	dbQuery.Limit(pageSize).Offset(pageSize * (currentPage - 1))
@@ -63,6 +77,17 @@ func GetPageSize(c *fiber.Ctx) int {
 
 	pageSizeInt, _ := strconv.Atoi(pageSize)
 	return pageSizeInt
+}
+
+func GetLanguage(c *fiber.Ctx) string {
+	queryParams := c.Queries()
+	language := queryParams["language"]
+
+	if language == "" {
+		language = "all"
+	}
+
+	return language
 }
 
 func GetCurrentPage(c *fiber.Ctx) int {

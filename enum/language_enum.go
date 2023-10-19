@@ -3,7 +3,7 @@ package enum
 type Language uint8
 
 const (
-	BrazilianPortuguese Language = iota
+	BrazilianPortuguese Language = iota + 1
 	English
 	Italian
 )
