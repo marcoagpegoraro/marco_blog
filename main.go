@@ -44,8 +44,8 @@ func main() {
 		Prefork:       true,
 		CaseSensitive: false,
 		StrictRouting: false,
-		ServerHeader:  "Apache/2.4.1 (Unix)",
-		AppName:       "Marco's Blog v1.0.0",
+		// ServerHeader:  "Apache/2.4.1 (Unix)",
+		// AppName:       "Marco's Blog v1.0.0",
 	})
 
 	app.Use(favicon.New())
