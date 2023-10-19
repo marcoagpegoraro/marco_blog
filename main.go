@@ -2,7 +2,6 @@ package main
 
 import (
 	"embed"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -65,19 +64,6 @@ func main() {
 	app.Use(middlewares.OnlyAuthenticated)
 	routes.RestrictedRoutes(app)
 
-	fmt.Println(os.Getenv("PORT"))
-	fmt.Println(os.Getenv("DSN"))
-	fmt.Println(os.Getenv("AWS_ACCESS_KEY_ID"))
-	fmt.Println(os.Getenv("AWS_SECRET_ACCESS_KEY"))
-	fmt.Println(os.Getenv("JWT_SECRET"))
-	fmt.Println(os.Getenv("USERNAME_HASH"))
-	fmt.Println(os.Getenv("PASSWORD_HASH"))
-	fmt.Println(os.Getenv("ENV"))
-
 	//Start App
-	if os.Getenv("ENV") == "PROD" {
-		log.Fatal(app.Listen("0.0.0.0:" + os.Getenv("PORT")))
-	} else {
-		log.Fatal(app.Listen(":" + os.Getenv("PORT")))
-	}
+	log.Fatal(app.Listen("0.0.0.0:" + os.Getenv("PORT")))
 }
