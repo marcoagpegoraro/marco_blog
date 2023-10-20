@@ -1,0 +1,57 @@
+<style>
+  #tagsCard {
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+
+  @media (min-width: 992px) {
+  #tagsCard {
+    width: 18rem;
+  }
+}
+</style>
+
+<div id="tagsCard" class="card" >
+  <header class="card-header">
+    <h2 class="card-title">Search by tags</h2>
+  </header>
+
+  <div class="card-body">
+  
+    <button 
+      id="clean-tags-filter-button" 
+      class="button style-warning" 
+      style="min-width: 190px;"
+      onclick="handleCleanTagButtonClick()"
+    > 
+      Clean tag filter
+    </button>
+    <br/>
+    {% for tag in tags %}
+      {% if tag.Name != "" %}
+        <button class="badge style-green" 
+          onclick="handleTagButtonClick('{{tag.Name}}')" >
+          {{ tag.Name }}
+        </button>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  if (!urlParams.has("tag")){
+    document.getElementById("clean-tags-filter-button").style.display="none";
+  }
+
+  function handleTagButtonClick(tag){
+    urlParams.delete("tag");
+    urlParams.append('tag', tag)
+    window.location = "?" + urlParams.toString()
+  }
+
+
+  function handleCleanTagButtonClick(){
+    urlParams.delete("tag");
+    window.location = "?" + urlParams.toString()
+  }
+</script>

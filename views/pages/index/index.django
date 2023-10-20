@@ -5,25 +5,21 @@
   body {
     background-image: radial-gradient(circle at 1px 1px, #CED9E3 1px, transparent 0);
     background-size: 40px 40px;
+    display: flex;
+    flex-direction: column;
   }
 
-  #post-list-section, #about-me {
+  #post-list-section, #side-bar {
     margin:20px;
   }
 
   #homePage{
     justify-content: center;
   }
-  #aboutMeCard {
-    margin: 0 auto;
-  }
 
   @media (min-width: 992px) {
   #homePage {
     display: flex;
-  }
-  #aboutMeCard {
-    width: 18rem;
   }
 }
 
@@ -35,13 +31,16 @@
     <section id="post-list">
       {% include "components/post_list.django" %}
     </section>
-    {% include "components/pagination.django" %}
+    {% if posts|length != 0  %}
+      {% include "components/pagination.django" %}
+    {% endif %}
     {% include "components/pagination_javascript.django" %}
 
   </section>
 
-  <section id="about-me" class="m-2">
+  <section id="side-bar" class="m-2">
     {% include "components/author_card.django" %}
+    {% include "components/tags_card.django" %}
   </section>
 </div>
 

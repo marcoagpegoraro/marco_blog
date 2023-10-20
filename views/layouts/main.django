@@ -21,7 +21,11 @@
 
 </head>
 <body>
-    {{embed}}
+  <!-- JavaScript : global variables: -->
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+  </script>
+  {{embed}}
   <!-- JavaScript : Popperjs + FlatifyCSS -->
   <script src="https://unpkg.com/@popperjs/core@2" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatifycss/dist/js/flatify.min.js" crossorigin="anonymous"></script>

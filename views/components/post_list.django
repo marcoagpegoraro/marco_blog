@@ -23,7 +23,7 @@
   <header class="card-header">
     <div class="card-badges">
       {% for tag in post.Tags %}
-        <a href="#" class="badge style-green">{{ tag.Name }}</a> <!-- todo: implement search by tag-->
+        <a href="#" class="badge style-green">{{ tag.Name }}</a>
       {% endfor %}
     </div>
     <div style="height: 200px" class="card-image">

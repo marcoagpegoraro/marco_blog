@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"math"
 	"strconv"
 
@@ -33,7 +34,7 @@ func GetNumberOfPages(totalPostsCount int64, numberOfPosts int) int {
 	return int(math.Ceil(d))
 }
 
-func GetPosts(c *fiber.Ctx, currentPage int, pageSize int, language string) []models.Post {
+func GetPosts(c *fiber.Ctx, currentPage int, pageSize int, language string, tag string) []models.Post {
 
 	var posts []models.Post
 	dbQuery := initializers.DB.Order("created_at desc")
@@ -60,11 +61,27 @@ func GetPosts(c *fiber.Ctx, currentPage int, pageSize int, language string) []mo
 		}
 	}
 
+	fmt.Println(tag)
+	if tag != "" {
+		dbQuery.Preload("Tags", "name = (?)", tag)
+	} else {
+		dbQuery.Preload("Tags")
+	}
+
 	dbQuery.Limit(pageSize).Offset(pageSize * (currentPage - 1))
-	dbQuery.Preload("Tags")
 	dbQuery.Find(&posts)
 
 	return posts
+}
+
+func GetTags(c *fiber.Ctx) []models.Tag {
+
+	var tags []models.Tag
+	dbQuery := initializers.DB.Order("id desc")
+
+	dbQuery.Find(&tags)
+
+	return tags
 }
 
 func GetPageSize(c *fiber.Ctx) int {
@@ -88,6 +105,11 @@ func GetLanguage(c *fiber.Ctx) string {
 	}
 
 	return language
+}
+
+func GetTag(c *fiber.Ctx) string {
+	queryParams := c.Queries()
+	return queryParams["tag"]
 }
 
 func GetCurrentPage(c *fiber.Ctx) int {

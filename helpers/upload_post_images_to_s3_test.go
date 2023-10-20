@@ -20,7 +20,7 @@ func TestGetImageFromString(t *testing.T) {
 	images := helpers.GetImagesFromString(postBody)
 
 	if images == nil || len(images) != 3 {
-		t.Errorf("Lenght of images correct")
+		t.Errorf("Length of images correct")
 	}
 
 	for _, image := range images {

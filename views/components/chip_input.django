@@ -34,7 +34,6 @@
         </span>
         `
     })
-    console.log(innerHTMLChipsContainer)
     chipsContainer.innerHTML = innerHTMLChipsContainer
 
     updateChipsInputForm()
@@ -44,7 +43,6 @@
     if (event.key == "Enter") {
       var chipValue = event.target.value;
       tagsList.push(chipValue)
-      console.log(tagsList)
 
       updateChipsContainer()
 

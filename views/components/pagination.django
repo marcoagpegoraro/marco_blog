@@ -1,5 +1,5 @@
 
-<section style="display: flex; justify-content: space-around;">
+<section style="display: flex; justify-content: space-around; flex-wrap: wrap;">
   {% if is_auth %}
   <div>
     <label for="showDrafts" class="toggle-wrapper" style="display: inline;">

@@ -1,5 +1,4 @@
 <script>
-  const urlParams = new URLSearchParams(window.location.search);
 
   const pageSize = urlParams.get('page_size') || 25
   const postPerPageElements = document.getElementsByClassName('posts-per-page-pagination')
@@ -15,7 +14,6 @@
   {% if is_auth %}
   const showDrafts = urlParams.get('show_drafts') || 'false'
   const showDraftsElements = document.getElementsByClassName('show-drafts-pagination')
-  console.log(showDraftsElements)
 
   for(var i = 0; i < showDraftsElements.length; i++){
     if(showDrafts == 'true'){
