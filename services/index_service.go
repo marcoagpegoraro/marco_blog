@@ -1,7 +1,6 @@
 package services
 
 import (
-	"fmt"
 	"math"
 	"strconv"
 
@@ -61,15 +60,21 @@ func GetPosts(c *fiber.Ctx, currentPage int, pageSize int, language string, tag 
 		}
 	}
 
-	fmt.Println(tag)
-	if tag != "" {
-		dbQuery.Preload("Tags", "name = (?)", tag)
-	} else {
-		dbQuery.Preload("Tags")
-	}
-
+	dbQuery.Preload("Tags")
 	dbQuery.Limit(pageSize).Offset(pageSize * (currentPage - 1))
 	dbQuery.Find(&posts)
+
+	if tag != "" { //i know... i know... this is way to ugly, but it is good enough for now
+		var filteredPostsByTag []models.Post
+		for _, post := range posts {
+			for _, postTag := range post.Tags {
+				if postTag.Name == tag {
+					filteredPostsByTag = append(filteredPostsByTag, post)
+				}
+			}
+		}
+		return filteredPostsByTag
+	}
 
 	return posts
 }
