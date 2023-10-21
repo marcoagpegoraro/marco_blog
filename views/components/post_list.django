@@ -37,15 +37,7 @@
     </div>
 
     <footer class="card-footer">
-      <div class="dropdown-wrapper popover">
-        <button id="copy-post-{{post.Id}}-to-clipboard" class="button bordered style-light-light dropdown-toggle bi bi-clipboard-fill" 
-        aria-expanded="false" aria-label="Copy to clipboard" 
-        onclick="navigator.clipboard.writeText(window.location.toString() + 'posts/' + {{post.Id}})">
-        </button>  
-        <div class="dropdown" aria-labelledby="copy-post-{{post.Id}}-to-clipboard">
-          Copied post link to clipboard!
-        </div>
-      </div>
+      {% include "components/share_post_link_button.django" %}
 
       <a href="/posts/{{post.Id}}" class="button style-accent push-right size-lg">Read more</a>
     </footer>
