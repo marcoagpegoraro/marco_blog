@@ -13,6 +13,7 @@
   .post img { 
     max-width: 100%; 
     height: auto; 
+    margin: 0 auto;
   }
 
   .post-title, .post-created-at { 
@@ -35,14 +36,22 @@
     {% endif %}
     <h1 class="post-title">{{ post.Title }}</h1>  
     <h2 class="post-subtitle">{{ post.Subtitle }}</h2> 
+    <div style="float: right;">
+      {% include "components/share_post_link_button.django" %}
+    </div>  
     <p class="post-created-at">{{ formatDate(post.CreatedAt) }}</p> 
     <p class="post-language">Language: {{ camelCaseToCapitalizeFirstWorldAndAddSpaces(post.Language.String) }}</p> 
-    Tags: 
-    {% for tag in post.Tags %}
-      <span class="badge style-green edge-circle" style="bottom: 1px; position: relative;">{{ tag.Name }}</span>
-    {% endfor %}
+    {% if post.Tags|length != 0  %}
+      Tags: 
+      {% for tag in post.Tags %}
+        <span class="badge style-green edge-circle" style="bottom: 1px; position: relative;">{{ tag.Name }}</span>
+      {% endfor %}
+    {% endif %}
     <hr/>
     {{ post.Body }} 
+    <hr/>
+    {% include "components/disqus.django" %}
+
 </div>
 
 
