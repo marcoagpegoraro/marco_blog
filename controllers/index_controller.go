@@ -1,8 +1,6 @@
 package controllers
 
 import (
-	"fmt"
-
 	"github.com/gofiber/fiber/v2"
 	"github.com/marcoagpegoraro/marco_blog/helpers"
 	"github.com/marcoagpegoraro/marco_blog/services"
@@ -21,8 +19,6 @@ func GetIndex(c *fiber.Ctx) error {
 	paginationButtons := helpers.CalculatePagination(numberOfPages, currentPage, 5)
 
 	tags := services.GetTags(c)
-
-	fmt.Println(c.BaseURL())
 
 	return c.Render("pages/index/index", fiber.Map{
 		"title":              "Home",

@@ -74,6 +74,9 @@ func PostPostUpdate(c *fiber.Ctx) error {
 		return err
 	}
 
+	tagsToBeDeleted := helpers.GetTagsToBeDeleted(postModel.Id, postModel)
+
+	initializers.DB.Model(&postModel).Association("Tags").Delete(tagsToBeDeleted)
 	saveResult := initializers.DB.Omit("created_at").Save(&postModel)
 
 	fmt.Println(saveResult)

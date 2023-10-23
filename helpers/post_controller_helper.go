@@ -6,6 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/marcoagpegoraro/marco_blog/dto"
+	"github.com/marcoagpegoraro/marco_blog/initializers"
 	"github.com/marcoagpegoraro/marco_blog/mapper"
 	"github.com/marcoagpegoraro/marco_blog/models"
 )
@@ -41,4 +42,27 @@ func HandlePostRequestPost(c *fiber.Ctx) (models.Post, error) {
 
 	postModel := mapper.MapPostRequestToPostModel(*post)
 	return postModel, nil
+}
+
+func GetTagsToBeDeleted(id uint, newPost models.Post) []models.Tag {
+	var oldPost models.Post
+	initializers.DB.Where("id = ?", id).Preload("Tags").First(&oldPost)
+
+	var tagsToBeDeleted []models.Tag
+
+	for _, oldTag := range oldPost.Tags {
+		hasTagInNewAndOldModel := false
+		for _, newTag := range newPost.Tags {
+			if oldTag.Name == newTag.Name {
+				hasTagInNewAndOldModel = true
+				break
+			}
+		}
+
+		if !hasTagInNewAndOldModel {
+			tagsToBeDeleted = append(tagsToBeDeleted, oldTag)
+		}
+	}
+
+	return tagsToBeDeleted
 }
