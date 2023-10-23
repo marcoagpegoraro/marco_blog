@@ -12,8 +12,8 @@
   aria-expanded="false" aria-label="Copy to clipboard">
 </button>
 
-<script type="text/javascript">
-  if (navigator.share == undefined){
+<script type="text/javascript">  
+  if (!window.isMobileOrTablet()){
     document.getElementById("share-post-{{post.Id}}").style.display="none";
   }else{
     document.getElementById("copy-post-{{post.Id}}-to-clipboard-wrapper").style.display="none";
