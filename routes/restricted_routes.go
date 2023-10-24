@@ -6,9 +6,9 @@ import (
 )
 
 func RestrictedRoutes(app *fiber.App) {
-	app.Get("/posts/add", controllers.GetPostIndex)
-	app.Post("/posts/add", controllers.PostPostIndex)
+	app.Get("/posts/add", controllers.PostController.Get)
+	app.Post("/posts/add", controllers.PostController.Post)
 
-	app.Get("/posts/:id/edit", controllers.GetPostUpdate)
-	app.Post("/posts/:id/edit", controllers.PostPostUpdate)
+	app.Get("/posts/:id/edit", controllers.PostController.GetEditPost)
+	app.Post("/posts/:id/edit", controllers.PostController.PostEditPost)
 }

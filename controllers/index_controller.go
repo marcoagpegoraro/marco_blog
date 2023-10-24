@@ -1,18 +1,35 @@
 package controllers
 
 import (
+	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/marcoagpegoraro/marco_blog/helpers"
+	"github.com/marcoagpegoraro/marco_blog/initializers"
 	"github.com/marcoagpegoraro/marco_blog/services"
+	"github.com/patrickmn/go-cache"
 )
 
-func GetIndex(c *fiber.Ctx) error {
+var IndexController = IndexControllerStruct{}
+
+type IndexControllerStruct struct {
+}
+
+func (controller IndexControllerStruct) Get(c *fiber.Ctx) error {
 	currentPage := services.GetCurrentPage(c)
 	pageSize := services.GetPageSize(c)
 	language := services.GetLanguage(c)
 	tag := services.GetTag(c)
 
-	posts := services.GetPosts(c, currentPage, pageSize, language, tag)
+	cacheKeyPosts := fmt.Sprintf("postsControllerGet%d%d%s%s", currentPage, pageSize, language, tag)
+	posts, found := initializers.Cache.Get(cacheKeyPosts)
+
+	fmt.Println(found)
+	if !found {
+		posts = services.GetPosts(c, currentPage, pageSize, language, tag)
+		initializers.Cache.Set(cacheKeyPosts, posts, cache.DefaultExpiration)
+	}
+
 	totalPostsCount := services.GetTotalPostsCount(c)
 
 	numberOfPages := services.GetNumberOfPages(totalPostsCount, pageSize)

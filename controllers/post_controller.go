@@ -10,7 +10,12 @@ import (
 	"github.com/marcoagpegoraro/marco_blog/models"
 )
 
-func GetPostIndex(c *fiber.Ctx) error {
+var PostController = PostControllerStruct{}
+
+type PostControllerStruct struct {
+}
+
+func (controller PostControllerStruct) Get(c *fiber.Ctx) error {
 	return c.Render("pages/posts/index", fiber.Map{
 		"title":     "Create new post",
 		"languages": enum.LanguageEnumValues(),
@@ -18,7 +23,7 @@ func GetPostIndex(c *fiber.Ctx) error {
 	}, "layouts/main")
 }
 
-func GetOnePostIndex(c *fiber.Ctx) error {
+func (controller PostControllerStruct) GetOne(c *fiber.Ctx) error {
 	id, err := helpers.GetIdParamFromUrl(c)
 	if err != nil {
 		return err
@@ -40,7 +45,7 @@ func GetOnePostIndex(c *fiber.Ctx) error {
 	}, "layouts/main")
 }
 
-func PostPostIndex(c *fiber.Ctx) error {
+func (controller PostControllerStruct) Post(c *fiber.Ctx) error {
 	postModel, err := helpers.HandlePostRequestPost(c)
 	if err != nil {
 		return err
@@ -51,7 +56,7 @@ func PostPostIndex(c *fiber.Ctx) error {
 	return c.Redirect(fmt.Sprintf("/posts/%d", postModel.Id))
 }
 
-func GetPostUpdate(c *fiber.Ctx) error {
+func (controller PostControllerStruct) GetEditPost(c *fiber.Ctx) error {
 	id, err := helpers.GetIdParamFromUrl(c)
 	if err != nil {
 		return err
@@ -68,7 +73,7 @@ func GetPostUpdate(c *fiber.Ctx) error {
 	}, "layouts/main")
 }
 
-func PostPostUpdate(c *fiber.Ctx) error {
+func (controller PostControllerStruct) PostEditPost(c *fiber.Ctx) error {
 	postModel, err := helpers.HandlePostRequestPost(c)
 	if err != nil {
 		return err
@@ -77,9 +82,7 @@ func PostPostUpdate(c *fiber.Ctx) error {
 	tagsToBeDeleted := helpers.GetTagsToBeDeleted(postModel.Id, postModel)
 
 	initializers.DB.Model(&postModel).Association("Tags").Delete(tagsToBeDeleted)
-	saveResult := initializers.DB.Omit("created_at").Save(&postModel)
-
-	fmt.Println(saveResult)
+	initializers.DB.Omit("created_at").Save(&postModel)
 
 	return c.Redirect(fmt.Sprintf("/posts/%d", postModel.Id))
 }

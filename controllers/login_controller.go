@@ -11,13 +11,18 @@ import (
 	"github.com/marcoagpegoraro/marco_blog/helpers"
 )
 
-func GetLogin(c *fiber.Ctx) error {
+var LoginController = LoginControllerStruct{}
+
+type LoginControllerStruct struct {
+}
+
+func (controller LoginControllerStruct) Get(c *fiber.Ctx) error {
 	return c.Render("pages/login/index", fiber.Map{
 		"title": "Login",
 	}, "layouts/login")
 }
 
-func PostLogin(c *fiber.Ctx) error {
+func (controller LoginControllerStruct) Post(c *fiber.Ctx) error {
 	loginRequest := new(dto.LoginRequest)
 
 	if err := c.BodyParser(loginRequest); err != nil {
@@ -64,13 +69,5 @@ func PostLogin(c *fiber.Ctx) error {
 
 	return c.RedirectToRoute("", fiber.Map{
 		"messages": []dto.MessageDto{{Message: "Welcome!", Type: "success"}},
-	})
-}
-
-func GetLogoff(c *fiber.Ctx) error {
-	c.ClearCookie("token")
-
-	return c.RedirectToRoute("", fiber.Map{
-		"messages": []dto.MessageDto{{Message: "Log off with success!", Type: "success"}},
 	})
 }

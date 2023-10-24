@@ -22,6 +22,7 @@ func init() {
 	initializers.ConnectToDatabase()
 	initializers.SyncDB()
 	initializers.ConnectToS3()
+	initializers.ConfigureCache()
 }
 
 func main() {

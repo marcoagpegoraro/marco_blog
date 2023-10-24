@@ -25,13 +25,13 @@ func Routes(app *fiber.App) {
 		StatusCode: 301,
 	}))
 
-	app.Get("/", controllers.GetIndex)
+	app.Get("/", controllers.IndexController.Get)
 
-	app.Get("/login.php", controllers.GetLogin)
-	app.Post("/login.php", controllers.PostLogin)
+	app.Get("/login.php", controllers.LoginController.Get)
+	app.Post("/login.php", controllers.LoginController.Post)
 
-	app.Get("/logoff", controllers.GetLogoff)
+	app.Get("/logoff", controllers.LogoffController.Get)
 
-	app.Get("/posts/:id<int>", controllers.GetOnePostIndex)
+	app.Get("/posts/:id<int>", controllers.PostController.GetOne)
 
 }
