@@ -36,6 +36,8 @@
       break;
   }
 
-  button.classList.add("active");
+  if (button){
+    button.classList.add("active");
+  }
 
 </script>

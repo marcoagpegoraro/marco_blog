@@ -27,7 +27,7 @@
       <div id="editor"></div>
     </div>
 
-    <textarea style="display:none" id="PostBody" name="PostBody"></textarea>
+    <textarea style="display:none" id="PostBody" name="PostBody">{{ post.Body|default_if_none:"" }}</textarea>
 
     <div class="mb-3" style="display: flex; justify-content: right; margin-top: 16px;">
       <button type="submit" name="PostIsDraft" value="true" class="button style-light">Save as draft</button>
@@ -56,7 +56,7 @@
     theme: 'snow'
   });
 
-  const delta = quill.clipboard.convert(`{{ post.Body|default_if_none:"" }}`)
+  const delta = quill.clipboard.convert(document.getElementById("PostBody").value)
   quill.setContents(delta, 'silent')
 
   document.querySelector('form').addEventListener('submit', async (event) => {

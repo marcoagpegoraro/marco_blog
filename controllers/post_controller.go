@@ -5,9 +5,10 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/marcoagpegoraro/marco_blog/enum"
-	"github.com/marcoagpegoraro/marco_blog/helpers"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 	"github.com/marcoagpegoraro/marco_blog/models"
+	"github.com/marcoagpegoraro/marco_blog/services"
+	"github.com/patrickmn/go-cache"
 )
 
 var PostController = PostControllerStruct{}
@@ -24,13 +25,20 @@ func (controller PostControllerStruct) Get(c *fiber.Ctx) error {
 }
 
 func (controller PostControllerStruct) GetOne(c *fiber.Ctx) error {
-	id, err := helpers.GetIdParamFromUrl(c)
+	id, err := services.PostService.GetIdParamFromUrl(c)
 	if err != nil {
 		return err
 	}
 
+	cacheKeyPost := fmt.Sprintf("postsControllerGetOne%s", id)
+
 	var post models.Post
-	initializers.DB.Where("id = ?", id).Preload("Tags").First(&post)
+	if x, found := initializers.Cache.Get(cacheKeyPost); found {
+		post = *x.(*models.Post)
+	} else {
+		initializers.DB.Where("id = ?", id).Preload("Tags").First(&post)
+		initializers.Cache.Set(cacheKeyPost, &post, cache.DefaultExpiration)
+	}
 
 	isAuth := c.Locals("is_auth").(bool)
 
@@ -46,7 +54,7 @@ func (controller PostControllerStruct) GetOne(c *fiber.Ctx) error {
 }
 
 func (controller PostControllerStruct) Post(c *fiber.Ctx) error {
-	postModel, err := helpers.HandlePostRequestPost(c)
+	postModel, err := services.PostService.HandlePostRequestPost(c)
 	if err != nil {
 		return err
 	}
@@ -57,7 +65,7 @@ func (controller PostControllerStruct) Post(c *fiber.Ctx) error {
 }
 
 func (controller PostControllerStruct) GetEditPost(c *fiber.Ctx) error {
-	id, err := helpers.GetIdParamFromUrl(c)
+	id, err := services.PostService.GetIdParamFromUrl(c)
 	if err != nil {
 		return err
 	}
@@ -74,12 +82,12 @@ func (controller PostControllerStruct) GetEditPost(c *fiber.Ctx) error {
 }
 
 func (controller PostControllerStruct) PostEditPost(c *fiber.Ctx) error {
-	postModel, err := helpers.HandlePostRequestPost(c)
+	postModel, err := services.PostService.HandlePostRequestPost(c)
 	if err != nil {
 		return err
 	}
 
-	tagsToBeDeleted := helpers.GetTagsToBeDeleted(postModel.Id, postModel)
+	tagsToBeDeleted := services.PostService.GetTagsToBeDeleted(postModel.Id, postModel)
 
 	initializers.DB.Model(&postModel).Association("Tags").Delete(tagsToBeDeleted)
 	initializers.DB.Omit("created_at").Save(&postModel)

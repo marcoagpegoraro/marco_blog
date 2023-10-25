@@ -6,6 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/marcoagpegoraro/marco_blog/helpers"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
+	"github.com/marcoagpegoraro/marco_blog/models"
 	"github.com/marcoagpegoraro/marco_blog/services"
 	"github.com/patrickmn/go-cache"
 )
@@ -16,26 +17,26 @@ type IndexControllerStruct struct {
 }
 
 func (controller IndexControllerStruct) Get(c *fiber.Ctx) error {
-	currentPage := services.GetCurrentPage(c)
-	pageSize := services.GetPageSize(c)
-	language := services.GetLanguage(c)
-	tag := services.GetTag(c)
+	currentPage := services.IndexService.GetCurrentPage(c)
+	pageSize := services.IndexService.GetPageSize(c)
+	language := services.IndexService.GetLanguage(c)
+	tag := services.IndexService.GetTag(c)
 
-	cacheKeyPosts := fmt.Sprintf("postsControllerGet%d%d%s%s", currentPage, pageSize, language, tag)
-	posts, found := initializers.Cache.Get(cacheKeyPosts)
-
-	fmt.Println(found)
-	if !found {
-		posts = services.GetPosts(c, currentPage, pageSize, language, tag)
-		initializers.Cache.Set(cacheKeyPosts, posts, cache.DefaultExpiration)
+	cacheKey := fmt.Sprintf("postsControllerGet%d%d%s%s", currentPage, pageSize, language, tag)
+	var posts []models.Post
+	if x, found := initializers.Cache.Get(cacheKey); found {
+		posts = *x.(*[]models.Post)
+	} else {
+		posts = services.IndexService.GetPosts(c, currentPage, pageSize, language, tag)
+		initializers.Cache.Set(cacheKey, &posts, cache.DefaultExpiration)
 	}
 
-	totalPostsCount := services.GetTotalPostsCount(c)
+	totalPostsCount := services.IndexService.GetTotalPostsCount(c)
 
-	numberOfPages := services.GetNumberOfPages(totalPostsCount, pageSize)
+	numberOfPages := services.IndexService.GetNumberOfPages(totalPostsCount, pageSize)
 	paginationButtons := helpers.CalculatePagination(numberOfPages, currentPage, 5)
 
-	tags := services.GetTags(c)
+	tags := services.IndexService.GetTags(c)
 
 	return c.Render("pages/index/index", fiber.Map{
 		"title":              "Home",

@@ -10,9 +10,14 @@ import (
 	"github.com/marcoagpegoraro/marco_blog/models"
 )
 
-func GetTotalPostsCount(c *fiber.Ctx) int64 {
+var IndexService = IndexServiceStruct{}
+
+type IndexServiceStruct struct {
+}
+
+func (service IndexServiceStruct) GetTotalPostsCount(c *fiber.Ctx) int64 {
 	isAuth := c.Locals("is_auth").(bool)
-	showDrafts := getShowDrafts(c)
+	showDrafts := service.getShowDrafts(c)
 
 	var count int64
 	dbQuery := initializers.DB.Model(&models.Post{})
@@ -28,18 +33,18 @@ func GetTotalPostsCount(c *fiber.Ctx) int64 {
 	return count
 }
 
-func GetNumberOfPages(totalPostsCount int64, numberOfPosts int) int {
+func (service IndexServiceStruct) GetNumberOfPages(totalPostsCount int64, numberOfPosts int) int {
 	d := float64(totalPostsCount) / float64(numberOfPosts)
 	return int(math.Ceil(d))
 }
 
-func GetPosts(c *fiber.Ctx, currentPage int, pageSize int, language string, tag string) []models.Post {
+func (service IndexServiceStruct) GetPosts(c *fiber.Ctx, currentPage int, pageSize int, language string, tag string) []models.Post {
 
 	var posts []models.Post
 	dbQuery := initializers.DB.Order("created_at desc")
 
 	isAuth := c.Locals("is_auth").(bool)
-	showDrafts := getShowDrafts(c)
+	showDrafts := service.getShowDrafts(c)
 
 	if !isAuth {
 		dbQuery.Where("is_draft = ?", "false")
@@ -79,7 +84,7 @@ func GetPosts(c *fiber.Ctx, currentPage int, pageSize int, language string, tag 
 	return posts
 }
 
-func GetTags(c *fiber.Ctx) []models.Tag {
+func (service IndexServiceStruct) GetTags(c *fiber.Ctx) []models.Tag {
 
 	var tags []models.Tag
 	dbQuery := initializers.DB.Order("id desc")
@@ -89,7 +94,7 @@ func GetTags(c *fiber.Ctx) []models.Tag {
 	return tags
 }
 
-func GetPageSize(c *fiber.Ctx) int {
+func (service IndexServiceStruct) GetPageSize(c *fiber.Ctx) int {
 	queryParams := c.Queries()
 	pageSize := queryParams["page_size"]
 
@@ -101,7 +106,7 @@ func GetPageSize(c *fiber.Ctx) int {
 	return pageSizeInt
 }
 
-func GetLanguage(c *fiber.Ctx) string {
+func (service IndexServiceStruct) GetLanguage(c *fiber.Ctx) string {
 	queryParams := c.Queries()
 	language := queryParams["language"]
 
@@ -112,12 +117,12 @@ func GetLanguage(c *fiber.Ctx) string {
 	return language
 }
 
-func GetTag(c *fiber.Ctx) string {
+func (service IndexServiceStruct) GetTag(c *fiber.Ctx) string {
 	queryParams := c.Queries()
 	return queryParams["tag"]
 }
 
-func GetCurrentPage(c *fiber.Ctx) int {
+func (service IndexServiceStruct) GetCurrentPage(c *fiber.Ctx) int {
 	queryParams := c.Queries()
 	page := queryParams["page"]
 
@@ -129,7 +134,7 @@ func GetCurrentPage(c *fiber.Ctx) int {
 	return pageInt
 }
 
-func getShowDrafts(c *fiber.Ctx) bool {
+func (service IndexServiceStruct) getShowDrafts(c *fiber.Ctx) bool {
 	queryParams := c.Queries()
 	showDrafts := queryParams["show_drafts"]
 

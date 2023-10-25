@@ -1,4 +1,4 @@
-package helpers
+package services
 
 import (
 	"fmt"
@@ -6,12 +6,18 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/marcoagpegoraro/marco_blog/dto"
+	"github.com/marcoagpegoraro/marco_blog/helpers"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 	"github.com/marcoagpegoraro/marco_blog/mapper"
 	"github.com/marcoagpegoraro/marco_blog/models"
 )
 
-func GetIdParamFromUrl(c *fiber.Ctx) (string, error) {
+var PostService = PostServiceStruct{}
+
+type PostServiceStruct struct {
+}
+
+func (service PostServiceStruct) GetIdParamFromUrl(c *fiber.Ctx) (string, error) {
 	params := c.AllParams()
 
 	id, ok := params["id"]
@@ -24,7 +30,7 @@ func GetIdParamFromUrl(c *fiber.Ctx) (string, error) {
 	return id, nil
 }
 
-func HandlePostRequestPost(c *fiber.Ctx) (models.Post, error) {
+func (service PostServiceStruct) HandlePostRequestPost(c *fiber.Ctx) (models.Post, error) {
 	post := new(dto.PostRequest)
 
 	if err := c.BodyParser(post); err != nil {
@@ -32,9 +38,9 @@ func HandlePostRequestPost(c *fiber.Ctx) (models.Post, error) {
 		return models.Post{}, c.SendStatus(200)
 	}
 
-	imagesBase64 := GetImagesFromString(post.PostBody)
+	imagesBase64 := helpers.GetImagesFromString(post.PostBody)
 	if imagesBase64 != nil {
-		imagesS3Url := UploadPostImagesToS3(imagesBase64)
+		imagesS3Url := helpers.UploadPostImagesToS3(imagesBase64)
 		for index, imageBase64 := range imagesBase64 {
 			post.PostBody = strings.Replace(post.PostBody, imageBase64, imagesS3Url[index], 1)
 		}
@@ -44,7 +50,7 @@ func HandlePostRequestPost(c *fiber.Ctx) (models.Post, error) {
 	return postModel, nil
 }
 
-func GetTagsToBeDeleted(id uint, newPost models.Post) []models.Tag {
+func (service PostServiceStruct) GetTagsToBeDeleted(id uint, newPost models.Post) []models.Tag {
 	var oldPost models.Post
 	initializers.DB.Where("id = ?", id).Preload("Tags").First(&oldPost)
 
