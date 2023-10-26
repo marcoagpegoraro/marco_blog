@@ -92,5 +92,7 @@ func (controller PostControllerStruct) PostEditPost(c *fiber.Ctx) error {
 	initializers.DB.Model(&postModel).Association("Tags").Delete(tagsToBeDeleted)
 	initializers.DB.Omit("created_at").Save(&postModel)
 
+	initializers.Cache.Flush()
+
 	return c.Redirect(fmt.Sprintf("/posts/%d", postModel.Id))
 }
