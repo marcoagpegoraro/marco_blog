@@ -15,9 +15,8 @@ var IndexService = IndexServiceStruct{}
 type IndexServiceStruct struct {
 }
 
-func (service IndexServiceStruct) GetTotalPostsCount(c *fiber.Ctx) int64 {
+func (service IndexServiceStruct) GetTotalPostsCount(c *fiber.Ctx, showDrafts bool) int64 {
 	isAuth := c.Locals("is_auth").(bool)
-	showDrafts := service.getShowDrafts(c)
 
 	var count int64
 	dbQuery := initializers.DB.Model(&models.Post{})
@@ -38,13 +37,12 @@ func (service IndexServiceStruct) GetNumberOfPages(totalPostsCount int64, number
 	return int(math.Ceil(d))
 }
 
-func (service IndexServiceStruct) GetPosts(c *fiber.Ctx, currentPage int, pageSize int, language string, tag string) []models.Post {
+func (service IndexServiceStruct) GetPosts(c *fiber.Ctx, currentPage int, pageSize int, language string, tag string, showDrafts bool) []models.Post {
 
 	var posts []models.Post
 	dbQuery := initializers.DB.Order("created_at desc")
 
 	isAuth := c.Locals("is_auth").(bool)
-	showDrafts := service.getShowDrafts(c)
 
 	if !isAuth {
 		dbQuery.Where("is_draft = ?", "false")
@@ -134,7 +132,7 @@ func (service IndexServiceStruct) GetCurrentPage(c *fiber.Ctx) int {
 	return pageInt
 }
 
-func (service IndexServiceStruct) getShowDrafts(c *fiber.Ctx) bool {
+func (service IndexServiceStruct) GetShowDrafts(c *fiber.Ctx) bool {
 	queryParams := c.Queries()
 	showDrafts := queryParams["show_drafts"]
 

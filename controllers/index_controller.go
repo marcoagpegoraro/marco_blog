@@ -21,17 +21,19 @@ func (controller IndexControllerStruct) Get(c *fiber.Ctx) error {
 	pageSize := services.IndexService.GetPageSize(c)
 	language := services.IndexService.GetLanguage(c)
 	tag := services.IndexService.GetTag(c)
+	showDrafts := services.IndexService.GetShowDrafts(c)
 
-	cacheKey := fmt.Sprintf("postsControllerGet%d%d%s%s", currentPage, pageSize, language, tag)
+	cacheKey := fmt.Sprintf("postsControllerGet%d%d%s%s%t", currentPage, pageSize, language, tag, showDrafts)
+	fmt.Println(cacheKey)
 	var posts []models.Post
 	if x, found := initializers.Cache.Get(cacheKey); found {
 		posts = *x.(*[]models.Post)
 	} else {
-		posts = services.IndexService.GetPosts(c, currentPage, pageSize, language, tag)
+		posts = services.IndexService.GetPosts(c, currentPage, pageSize, language, tag, showDrafts)
 		initializers.Cache.Set(cacheKey, &posts, cache.DefaultExpiration)
 	}
 
-	totalPostsCount := services.IndexService.GetTotalPostsCount(c)
+	totalPostsCount := services.IndexService.GetTotalPostsCount(c, showDrafts)
 
 	numberOfPages := services.IndexService.GetNumberOfPages(totalPostsCount, pageSize)
 	paginationButtons := helpers.CalculatePagination(numberOfPages, currentPage, 5)
