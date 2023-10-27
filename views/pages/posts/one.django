@@ -16,7 +16,7 @@
     margin: 0 auto;
   }
 
-  .post-title, .post-created-at { 
+  .post-title, .post-created-at, .post-language { 
     margin: 0; 
   }
 
@@ -39,8 +39,13 @@
     <div style="float: right;">
       {% include "components/share_post_link_button.django" %}
     </div>  
-    <p class="post-created-at">{{ formatDate(post.CreatedAt) }}</p> 
+    {% if post.PublicatedAt.Valid %}
+      <p class="post-created-at">{{ formatDate(post.PublicatedAt.Time) }}</p> 
+    {% else %}
+      <p class="post-created-at">{{ formatDate(post.CreatedAt) }}</p> 
+    {% endif %}
     <p class="post-language">Language: {{ camelCaseToCapitalizeFirstWorldAndAddSpaces(post.Language.String) }}</p> 
+    <p class="post-time"><span id="time"></span> minute read</p>
     {% if post.Tags|length != 0  %}
       Tags: 
       {% for tag in post.Tags %}
@@ -48,11 +53,23 @@
       {% endfor %}
     {% endif %}
     <hr/>
-    {{ post.Body }} 
+    <article id="article">
+      {{ post.Body }} 
+    </article>
     <hr/>
     {% include "components/disqus.django" %}
 
 </div>
 
+<script>
+  function readingTime() { //https://dev.to/michaelburrows/calculate-the-estimated-reading-time-of-an-article-using-javascript-2k9l
+    const text = document.getElementById("article").innerText;
+    const wpm = 225;
+    const words = text.trim().split(/\s+/).length;
+    const time = Math.ceil(words / wpm);
+    document.getElementById("time").innerText = time;
+  }
+  readingTime();
+</script>
 
 {% include "partials/footer.django" %}

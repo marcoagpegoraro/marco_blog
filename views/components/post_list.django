@@ -32,7 +32,12 @@
   </header>
   <div class="card-right">
     <div class="card-body">
-      <h2 class="card-title">{{ post.Title }}</h2>
+      {% if post.PublicatedAt.Valid %}
+        <span style="color: gray; font-size: 10pt;">{{ formatDate(post.PublicatedAt.Time)|slice:":10" }}</span>
+      {% else %}
+        <span style="color: gray; font-size: 10pt;">{{ formatDate(post.CreatedAt)|slice:":10" }}</span>
+      {% endif %}
+      <h2 class="card-title" style="margin-top: 0;">{{ post.Title }}</h2>
       {{ post.Body | striptags | safe | escape | truncatechars:150 }}
     </div>
 

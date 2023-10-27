@@ -40,14 +40,18 @@ func (service IndexServiceStruct) GetNumberOfPages(totalPostsCount int64, number
 func (service IndexServiceStruct) GetPosts(c *fiber.Ctx, currentPage int, pageSize int, language string, tag string, showDrafts bool) []models.Post {
 
 	var posts []models.Post
-	dbQuery := initializers.DB.Order("created_at desc")
+	dbQuery := initializers.DB.Preload("Tags")
 
-	isAuth := c.Locals("is_auth").(bool)
-
-	if !isAuth {
-		dbQuery.Where("is_draft = ?", "false")
-	} else {
+	if isAuth := c.Locals("is_auth").(bool); isAuth {
 		dbQuery.Where("is_draft = ?", showDrafts)
+		if showDrafts {
+			dbQuery.Order("created_at desc")
+		} else {
+			dbQuery.Order("publicated_at desc")
+		}
+	} else {
+		dbQuery.Where("is_draft = ?", "false")
+		dbQuery.Order("publicated_at desc")
 	}
 
 	if language != "All" {
@@ -63,7 +67,6 @@ func (service IndexServiceStruct) GetPosts(c *fiber.Ctx, currentPage int, pageSi
 		}
 	}
 
-	dbQuery.Preload("Tags")
 	dbQuery.Limit(pageSize).Offset(pageSize * (currentPage - 1))
 	dbQuery.Find(&posts)
 
@@ -73,6 +76,7 @@ func (service IndexServiceStruct) GetPosts(c *fiber.Ctx, currentPage int, pageSi
 			for _, postTag := range post.Tags {
 				if postTag.Name == tag {
 					filteredPostsByTag = append(filteredPostsByTag, post)
+					break
 				}
 			}
 		}
@@ -94,13 +98,11 @@ func (service IndexServiceStruct) GetTags(c *fiber.Ctx) []models.Tag {
     `
 
 	var tags []models.Tag
-	// dbQuery := initializers.DB.Order("id desc")
 
 	if isAuth := c.Locals("is_auth").(bool); !isAuth {
 		sqlQuery += ` WHERE  p.is_draft = false`
 	}
 
-	// dbQuery.Find(&tags)
 	sqlQuery += ` ORDER BY t.name`
 
 	initializers.DB.Raw(sqlQuery).Scan(&tags)
