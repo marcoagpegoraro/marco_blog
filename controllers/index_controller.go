@@ -23,6 +23,13 @@ func (controller IndexControllerStruct) Get(c *fiber.Ctx) error {
 	tag := services.IndexService.GetTag(c)
 	showDrafts := services.IndexService.GetShowDrafts(c)
 
+	totalPostsCount := services.IndexService.GetTotalPostsCount(c, showDrafts)
+	numberOfPages := services.IndexService.GetNumberOfPages(totalPostsCount, pageSize)
+	paginationButtons := helpers.CalculatePagination(numberOfPages, currentPage, 5)
+
+	channelTag := make(chan []models.Tag)
+	go services.IndexService.GetTagsConcurrently(c, channelTag)
+
 	cacheKey := fmt.Sprintf("postsControllerGet%d%d%s%s%t", currentPage, pageSize, language, tag, showDrafts)
 
 	var posts []models.Post
@@ -33,12 +40,7 @@ func (controller IndexControllerStruct) Get(c *fiber.Ctx) error {
 		initializers.Cache.Set(cacheKey, &posts, cache.DefaultExpiration)
 	}
 
-	totalPostsCount := services.IndexService.GetTotalPostsCount(c, showDrafts)
-
-	numberOfPages := services.IndexService.GetNumberOfPages(totalPostsCount, pageSize)
-	paginationButtons := helpers.CalculatePagination(numberOfPages, currentPage, 5)
-
-	tags := services.IndexService.GetTags(c)
+	tags := <-channelTag
 
 	return c.Render("pages/index/index", fiber.Map{
 		"title":              "Home",

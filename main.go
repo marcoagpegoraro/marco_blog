@@ -36,8 +36,7 @@ func main() {
 
 	//Setup app
 	app := fiber.New(fiber.Config{
-		Views: engine,
-		// Prefork:       true,
+		Views:         engine,
 		CaseSensitive: false,
 		StrictRouting: false,
 		ServerHeader:  "Apache/2.4.1 (Unix)",

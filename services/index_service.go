@@ -110,6 +110,11 @@ func (service IndexServiceStruct) GetTags(c *fiber.Ctx) []models.Tag {
 	return tags
 }
 
+func (service IndexServiceStruct) GetTagsConcurrently(c *fiber.Ctx, channelTags chan []models.Tag) {
+	tags := service.GetTags(c)
+	channelTags <- tags
+}
+
 func (service IndexServiceStruct) GetPageSize(c *fiber.Ctx) int {
 	queryParams := c.Queries()
 	pageSize := queryParams["page_size"]
