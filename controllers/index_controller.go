@@ -24,7 +24,7 @@ func (controller IndexControllerStruct) Get(c *fiber.Ctx) error {
 	showDrafts := services.IndexService.GetShowDrafts(c)
 
 	cacheKey := fmt.Sprintf("postsControllerGet%d%d%s%s%t", currentPage, pageSize, language, tag, showDrafts)
-	fmt.Println(cacheKey)
+
 	var posts []models.Post
 	if x, found := initializers.Cache.Get(cacheKey); found {
 		posts = *x.(*[]models.Post)

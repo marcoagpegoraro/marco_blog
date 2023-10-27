@@ -84,10 +84,26 @@ func (service IndexServiceStruct) GetPosts(c *fiber.Ctx, currentPage int, pageSi
 
 func (service IndexServiceStruct) GetTags(c *fiber.Ctx) []models.Tag {
 
-	var tags []models.Tag
-	dbQuery := initializers.DB.Order("id desc")
+	sqlQuery := `
+    SELECT distinct t.name
+    FROM tags t
+    LEFT OUTER JOIN posts_tags pt
+    ON t.name = pt.tag_name
+    LEFT OUTER JOIN posts p
+    ON pt.post_id  = p.id  
+    `
 
-	dbQuery.Find(&tags)
+	var tags []models.Tag
+	// dbQuery := initializers.DB.Order("id desc")
+
+	if isAuth := c.Locals("is_auth").(bool); !isAuth {
+		sqlQuery += ` WHERE  p.is_draft = false`
+	}
+
+	// dbQuery.Find(&tags)
+	sqlQuery += ` ORDER BY t.name`
+
+	initializers.DB.Raw(sqlQuery).Scan(&tags)
 
 	return tags
 }
