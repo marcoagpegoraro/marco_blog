@@ -7,6 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/csrf"
 	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/marcoagpegoraro/marco_blog/initializers"
 )
 
 func CommonMiddlewares(app *fiber.App) {
@@ -17,13 +18,12 @@ func CommonMiddlewares(app *fiber.App) {
 	app.Use(csrf.New(csrf.Config{
 		KeyLookup: "cookie:csrf_",
 	}))
-	// app.Use(cache.New(cache.Config{
-	// 	Next: func(c *fiber.Ctx) bool {
-	// 		fmt.Println(c.Locals("is_auth"))
-	// 		return false
-	// 	},
-	// 	Expiration:   24 * time.Hour,
-	// 	CacheControl: true,
-	// }))
+	app.Use(func(c *fiber.Ctx) error {
+		initializers.Cache.DeleteExpired()
+		if initializers.Cache.ItemCount() > 15 {
+			initializers.Cache.Flush()
+		}
+		return c.Next()
+	})
 	app.Static("/", "./public")
 }
