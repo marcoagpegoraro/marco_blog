@@ -1,14 +1,10 @@
 package controllers
 
 import (
-	"fmt"
-
 	"github.com/gofiber/fiber/v2"
-	"github.com/marcoagpegoraro/marco_blog/helpers"
-	"github.com/marcoagpegoraro/marco_blog/initializers"
+	"github.com/marcoagpegoraro/marco_blog/dto"
 	"github.com/marcoagpegoraro/marco_blog/models"
 	"github.com/marcoagpegoraro/marco_blog/services"
-	"github.com/patrickmn/go-cache"
 )
 
 var IndexController = IndexControllerStruct{}
@@ -22,25 +18,20 @@ func (controller IndexControllerStruct) Get(c *fiber.Ctx) error {
 	language := services.IndexService.GetLanguage(c)
 	tag := services.IndexService.GetTag(c)
 	showDrafts := services.IndexService.GetShowDrafts(c)
+	isAuth := c.Locals("is_auth").(bool)
 
-	totalPostsCount := services.IndexService.GetTotalPostsCount(c, showDrafts)
-	numberOfPages := services.IndexService.GetNumberOfPages(totalPostsCount, pageSize)
-	paginationButtons := helpers.CalculatePagination(numberOfPages, currentPage, 5)
+	channelPaginationButtons := make(chan []dto.PaginationButton)
+	go services.IndexService.GetPaginationButtonsConcurrently(c, showDrafts, pageSize, currentPage, channelPaginationButtons)
 
-	channelTag := make(chan []models.Tag)
-	go services.IndexService.GetTagsConcurrently(c, channelTag)
+	channelTags := make(chan []models.Tag)
+	go services.IndexService.GetTagsConcurrently(c, isAuth, channelTags)
 
-	cacheKey := fmt.Sprintf("postsControllerGet%d%d%s%s%t", currentPage, pageSize, language, tag, showDrafts)
+	channelPosts := make(chan []models.Post)
+	go services.IndexService.GetPostsConcurrently(c, isAuth, currentPage, pageSize, language, tag, showDrafts, channelPosts)
 
-	var posts []models.Post
-	if x, found := initializers.Cache.Get(cacheKey); found {
-		posts = *x.(*[]models.Post)
-	} else {
-		posts = services.IndexService.GetPosts(c, currentPage, pageSize, language, tag, showDrafts)
-		initializers.Cache.Set(cacheKey, &posts, cache.DefaultExpiration)
-	}
-
-	tags := <-channelTag
+	tags := <-channelTags
+	posts := <-channelPosts
+	paginationButtons := <-channelPaginationButtons
 
 	return c.Render("pages/index/index", fiber.Map{
 		"title":              "Home",
@@ -48,6 +39,6 @@ func (controller IndexControllerStruct) Get(c *fiber.Ctx) error {
 		"tags":               tags,
 		"base_url":           c.BaseURL(),
 		"pagination_buttons": paginationButtons,
-		"is_auth":            c.Locals("is_auth"),
+		"is_auth":            isAuth,
 	}, "layouts/main")
 }

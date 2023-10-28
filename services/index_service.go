@@ -1,13 +1,17 @@
 package services
 
 import (
+	"fmt"
 	"math"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/marcoagpegoraro/marco_blog/enum"
+	"github.com/marcoagpegoraro/marco_blog/dto"
+	"github.com/marcoagpegoraro/marco_blog/helpers"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 	"github.com/marcoagpegoraro/marco_blog/models"
+	"github.com/marcoagpegoraro/marco_blog/repositories"
+	"github.com/patrickmn/go-cache"
 )
 
 var IndexService = IndexServiceStruct{}
@@ -15,104 +19,61 @@ var IndexService = IndexServiceStruct{}
 type IndexServiceStruct struct {
 }
 
-func (service IndexServiceStruct) GetTotalPostsCount(c *fiber.Ctx, showDrafts bool) int64 {
-	isAuth := c.Locals("is_auth").(bool)
-
-	var count int64
-	dbQuery := initializers.DB.Model(&models.Post{})
-
-	if !isAuth {
-		dbQuery.Where("is_draft = ?", "false")
-	} else {
-		dbQuery.Where("is_draft = ?", showDrafts)
-	}
-
-	dbQuery.Count(&count)
-
-	return count
-}
-
 func (service IndexServiceStruct) GetNumberOfPages(totalPostsCount int64, numberOfPosts int) int {
 	d := float64(totalPostsCount) / float64(numberOfPosts)
 	return int(math.Ceil(d))
 }
 
-func (service IndexServiceStruct) GetPosts(c *fiber.Ctx, currentPage int, pageSize int, language string, tag string, showDrafts bool) []models.Post {
+func (service IndexServiceStruct) GetPostsConcurrently(c *fiber.Ctx, isAuth bool, currentPage int, pageSize int, language string, tag string, showDrafts bool, channelPosts chan []models.Post) {
+	cacheKey := fmt.Sprintf("postsServiceGetPosts%t%d%d%s%s%t", isAuth, currentPage, pageSize, language, tag, showDrafts)
 
 	var posts []models.Post
-	dbQuery := initializers.DB.Preload("Tags")
-
-	if isAuth := c.Locals("is_auth").(bool); isAuth {
-		dbQuery.Where("is_draft = ?", showDrafts)
-		if showDrafts {
-			dbQuery.Order("created_at desc")
-		} else {
-			dbQuery.Order("publicated_at desc")
-		}
+	if x, found := initializers.Cache.Get(cacheKey); found {
+		posts = *x.(*[]models.Post)
 	} else {
-		dbQuery.Where("is_draft = ?", "false")
-		dbQuery.Order("publicated_at desc")
+		posts = repositories.PostRepository.GetPosts(isAuth, currentPage, pageSize, language, tag, showDrafts)
+		initializers.Cache.Set(cacheKey, &posts, cache.DefaultExpiration)
 	}
 
-	if language != "All" {
-		var languageKey uint8
-		for k, v := range enum.LanguageEnumValues() {
-			if v == language {
-				languageKey = k
-				break
-			}
-		}
-		if languageKey != 0 {
-			dbQuery.Where("language = ?", languageKey)
-		}
-	}
-
-	dbQuery.Limit(pageSize).Offset(pageSize * (currentPage - 1))
-	dbQuery.Find(&posts)
-
-	if tag != "" { //i know... i know... this is way to ugly, but it is good enough for now
-		var filteredPostsByTag []models.Post
-		for _, post := range posts {
-			for _, postTag := range post.Tags {
-				if postTag.Name == tag {
-					filteredPostsByTag = append(filteredPostsByTag, post)
-					break
-				}
-			}
-		}
-		return filteredPostsByTag
-	}
-
-	return posts
+	channelPosts <- posts
 }
 
-func (service IndexServiceStruct) GetTags(c *fiber.Ctx) []models.Tag {
-
-	sqlQuery := `
-    SELECT distinct t.name
-    FROM tags t
-    LEFT OUTER JOIN posts_tags pt
-    ON t.name = pt.tag_name
-    LEFT OUTER JOIN posts p
-    ON pt.post_id  = p.id  
-    `
+func (service IndexServiceStruct) GetTagsConcurrently(c *fiber.Ctx, isAuth bool, channelTags chan []models.Tag) {
+	cacheKey := fmt.Sprintf("postsServiceGetTags%t", isAuth)
 
 	var tags []models.Tag
-
-	if isAuth := c.Locals("is_auth").(bool); !isAuth {
-		sqlQuery += ` WHERE  p.is_draft = false`
+	if x, found := initializers.Cache.Get(cacheKey); found {
+		tags = *x.(*[]models.Tag)
+	} else {
+		tags = repositories.TagRepository.GetAllTags(isAuth)
+		initializers.Cache.Set(cacheKey, &tags, cache.DefaultExpiration)
 	}
 
-	sqlQuery += ` ORDER BY t.name`
-
-	initializers.DB.Raw(sqlQuery).Scan(&tags)
-
-	return tags
+	channelTags <- tags
 }
 
-func (service IndexServiceStruct) GetTagsConcurrently(c *fiber.Ctx, channelTags chan []models.Tag) {
-	tags := service.GetTags(c)
-	channelTags <- tags
+func (service IndexServiceStruct) GetTotalPostsCount(c *fiber.Ctx, showDrafts bool) int64 {
+	isAuth := c.Locals("is_auth").(bool)
+	cacheKey := fmt.Sprintf("postsServiceGetTotalPostsCount%t%t", isAuth, showDrafts)
+
+	var count int64
+	if x, found := initializers.Cache.Get(cacheKey); found {
+		count = *x.(*int64)
+	} else {
+		isAuth := c.Locals("is_auth").(bool)
+		count = repositories.PostRepository.GetTotalPostsCount(isAuth, showDrafts)
+		initializers.Cache.Set(cacheKey, &count, cache.DefaultExpiration)
+	}
+
+	return count
+}
+
+func (service IndexServiceStruct) GetPaginationButtonsConcurrently(c *fiber.Ctx, showDrafts bool, pageSize int, currentPage int, channelPaginationButtons chan []dto.PaginationButton) {
+	totalPostsCount := service.GetTotalPostsCount(c, showDrafts)
+	numberOfPages := service.GetNumberOfPages(totalPostsCount, pageSize)
+	paginationButtons := helpers.CalculatePagination(numberOfPages, currentPage, 5)
+
+	channelPaginationButtons <- paginationButtons
 }
 
 func (service IndexServiceStruct) GetPageSize(c *fiber.Ctx) int {
