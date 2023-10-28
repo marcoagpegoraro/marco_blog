@@ -6,9 +6,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/marcoagpegoraro/marco_blog/enum"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
-	"github.com/marcoagpegoraro/marco_blog/models"
+	"github.com/marcoagpegoraro/marco_blog/repositories"
 	"github.com/marcoagpegoraro/marco_blog/services"
-	"github.com/patrickmn/go-cache"
 )
 
 var PostController = PostControllerStruct{}
@@ -30,19 +29,9 @@ func (controller PostControllerStruct) GetOne(c *fiber.Ctx) error {
 		return err
 	}
 
-	cacheKeyPost := fmt.Sprintf("postsControllerGetOne%s", id)
+	post := services.PostService.GetPostById(id)
 
-	var post models.Post
-	if x, found := initializers.Cache.Get(cacheKeyPost); found {
-		post = *x.(*models.Post)
-	} else {
-		initializers.DB.Where("id = ?", id).Preload("Tags").First(&post)
-		initializers.Cache.Set(cacheKeyPost, &post, cache.DefaultExpiration)
-	}
-
-	isAuth := c.Locals("is_auth").(bool)
-
-	if !isAuth && post.IsDraft {
+	if isAuth := c.Locals("is_auth").(bool); !isAuth && post.IsDraft {
 		c.RedirectToRoute("", fiber.Map{})
 	}
 
@@ -59,7 +48,7 @@ func (controller PostControllerStruct) Post(c *fiber.Ctx) error {
 		return err
 	}
 
-	initializers.DB.Create(&postModel)
+	repositories.PostRepository.Insert(&postModel)
 
 	initializers.Cache.Flush()
 
@@ -72,8 +61,7 @@ func (controller PostControllerStruct) GetEditPost(c *fiber.Ctx) error {
 		return err
 	}
 
-	var post models.Post
-	initializers.DB.Where("id = ?", id).Preload("Tags").First(&post)
+	post := repositories.PostRepository.GetPostById(id)
 
 	return c.Render("pages/posts/index", fiber.Map{
 		"title":     "Create new post",
@@ -89,10 +77,7 @@ func (controller PostControllerStruct) PostEditPost(c *fiber.Ctx) error {
 		return err
 	}
 
-	tagsToBeDeleted := services.PostService.GetTagsToBeDeleted(postModel.Id, postModel)
-
-	initializers.DB.Model(&postModel).Association("Tags").Delete(tagsToBeDeleted)
-	initializers.DB.Omit("created_at").Save(&postModel)
+	services.PostService.UpdatePost(postModel)
 
 	initializers.Cache.Flush()
 

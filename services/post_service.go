@@ -2,6 +2,7 @@ package services
 
 import (
 	"fmt"
+	"strconv"
 	"strings"
 
 	"github.com/gofiber/fiber/v2"
@@ -10,6 +11,8 @@ import (
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 	"github.com/marcoagpegoraro/marco_blog/mapper"
 	"github.com/marcoagpegoraro/marco_blog/models"
+	"github.com/marcoagpegoraro/marco_blog/repositories"
+	"github.com/patrickmn/go-cache"
 )
 
 var PostService = PostServiceStruct{}
@@ -17,17 +20,25 @@ var PostService = PostServiceStruct{}
 type PostServiceStruct struct {
 }
 
-func (service PostServiceStruct) GetIdParamFromUrl(c *fiber.Ctx) (string, error) {
+func (service PostServiceStruct) GetIdParamFromUrl(c *fiber.Ctx) (int, error) {
 	params := c.AllParams()
 
 	id, ok := params["id"]
 
 	if !ok {
-		return "", c.Render("pages/index/index", fiber.Map{
+		return 0, c.Render("pages/index/index", fiber.Map{
 			"title": "Home",
 		}, "layouts/main")
 	}
-	return id, nil
+
+	idInt, err := strconv.Atoi(id)
+	if err != nil {
+		return 0, c.Render("pages/index/index", fiber.Map{
+			"title": "Home",
+		}, "layouts/main")
+	}
+
+	return idInt, nil
 }
 
 func (service PostServiceStruct) HandlePostRequestPost(c *fiber.Ctx) (models.Post, error) {
@@ -50,9 +61,8 @@ func (service PostServiceStruct) HandlePostRequestPost(c *fiber.Ctx) (models.Pos
 	return postModel, nil
 }
 
-func (service PostServiceStruct) GetTagsToBeDeleted(id uint, newPost models.Post) []models.Tag {
-	var oldPost models.Post
-	initializers.DB.Where("id = ?", id).Preload("Tags").First(&oldPost)
+func (service PostServiceStruct) GetTagsToBeDeleted(id int, newPost models.Post) []models.Tag {
+	oldPost := repositories.PostRepository.GetPostById(id)
 
 	var tagsToBeDeleted []models.Tag
 
@@ -71,4 +81,25 @@ func (service PostServiceStruct) GetTagsToBeDeleted(id uint, newPost models.Post
 	}
 
 	return tagsToBeDeleted
+}
+
+func (service PostServiceStruct) UpdatePost(post models.Post) {
+	tagsToBeDeleted := service.GetTagsToBeDeleted(int(post.Id), post)
+
+	repositories.TagRepository.DeleteTagsFromPost(&post, tagsToBeDeleted)
+	repositories.PostRepository.Update(&post)
+}
+
+func (service PostServiceStruct) GetPostById(id int) models.Post {
+	cacheKeyPost := fmt.Sprintf("postsServiceGetOne%d", id)
+
+	var post models.Post
+	if x, found := initializers.Cache.Get(cacheKeyPost); found {
+		post = *x.(*models.Post)
+	} else {
+		post = repositories.PostRepository.GetPostById(id)
+		initializers.Cache.Set(cacheKeyPost, &post, cache.DefaultExpiration)
+	}
+
+	return post
 }

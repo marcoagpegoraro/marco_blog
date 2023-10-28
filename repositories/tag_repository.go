@@ -33,3 +33,7 @@ func (service TagRepositoryStruct) GetAllTags(isAuth bool) []models.Tag {
 
 	return tags
 }
+
+func (service TagRepositoryStruct) DeleteTagsFromPost(post *models.Post, tagsToBeDeleted []models.Tag) {
+	initializers.DB.Model(post).Association("Tags").Delete(tagsToBeDeleted)
+}

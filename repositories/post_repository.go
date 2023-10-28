@@ -74,3 +74,18 @@ func (service PostRepositoryStruct) GetTotalPostsCount(isAuth bool, showDrafts b
 
 	return count
 }
+
+func (service PostRepositoryStruct) GetPostById(id int) models.Post {
+	var post models.Post
+	initializers.DB.Where("id = ?", id).Preload("Tags").First(&post)
+
+	return post
+}
+
+func (service PostRepositoryStruct) Insert(postModel *models.Post) {
+	initializers.DB.Create(postModel)
+}
+
+func (service PostRepositoryStruct) Update(postModel *models.Post) {
+	initializers.DB.Omit("created_at").Save(&postModel)
+}

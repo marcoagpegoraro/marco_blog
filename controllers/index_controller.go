@@ -16,7 +16,7 @@ func (controller IndexControllerStruct) Get(c *fiber.Ctx) error {
 	currentPage := services.IndexService.GetCurrentPage(c)
 	pageSize := services.IndexService.GetPageSize(c)
 	language := services.IndexService.GetLanguage(c)
-	tag := services.IndexService.GetTag(c)
+	tag := c.Queries()["tag"]
 	showDrafts := services.IndexService.GetShowDrafts(c)
 	isAuth := c.Locals("is_auth").(bool)
 
