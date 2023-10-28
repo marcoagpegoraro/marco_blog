@@ -7,7 +7,6 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/marcoagpegoraro/marco_blog/dto"
-	"github.com/marcoagpegoraro/marco_blog/helpers"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 	"github.com/marcoagpegoraro/marco_blog/mapper"
 	"github.com/marcoagpegoraro/marco_blog/models"
@@ -49,9 +48,9 @@ func (service PostServiceStruct) HandlePostRequestPost(c *fiber.Ctx) (models.Pos
 		return models.Post{}, c.SendStatus(200)
 	}
 
-	imagesBase64 := helpers.GetImagesFromString(post.PostBody)
+	imagesBase64 := AWSS3Service.GetBase64ImagesFromString(post.PostBody)
 	if imagesBase64 != nil {
-		imagesS3Url := helpers.UploadPostImagesToS3(imagesBase64)
+		imagesS3Url := AWSS3Service.UploadPostImagesToS3(imagesBase64)
 		for index, imageBase64 := range imagesBase64 {
 			post.PostBody = strings.Replace(post.PostBody, imageBase64, imagesS3Url[index], 1)
 		}

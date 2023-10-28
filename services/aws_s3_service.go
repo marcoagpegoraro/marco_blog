@@ -1,4 +1,4 @@
-package helpers
+package services
 
 import (
 	"bytes"
@@ -15,10 +15,15 @@ import (
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 )
 
+var AWSS3Service = AWSS3ServiceStruct{}
+
+type AWSS3ServiceStruct struct {
+}
+
 var bucketName = "marco-blog-post-images"
 var s3UrlPrefix = "https://" + bucketName + ".s3.sa-east-1.amazonaws.com/"
 
-func UploadPostImagesToS3(images []string) []string {
+func (service AWSS3ServiceStruct) UploadPostImagesToS3(images []string) []string {
 	var imagesUrlS3 []string
 
 	for _, image := range images {
@@ -52,7 +57,7 @@ func UploadPostImagesToS3(images []string) []string {
 	return imagesUrlS3
 }
 
-func GetImagesFromString(str string) []string {
+func (service AWSS3ServiceStruct) GetBase64ImagesFromString(str string) []string {
 	pattern := regexp.MustCompile("<img src=\"(.*?)\">")
 	matches := pattern.FindAllStringSubmatch(str, -1)
 
