@@ -1,9 +1,7 @@
 package controllers
 
 import (
-	"database/sql"
 	"fmt"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/marcoagpegoraro/marco_blog/enum"
@@ -61,10 +59,6 @@ func (controller PostControllerStruct) Post(c *fiber.Ctx) error {
 		return err
 	}
 
-	if !postModel.IsDraft {
-		postModel.PublicatedAt = sql.NullTime{Time: time.Now()}
-	}
-
 	initializers.DB.Create(&postModel)
 
 	initializers.Cache.Flush()
@@ -93,11 +87,6 @@ func (controller PostControllerStruct) PostEditPost(c *fiber.Ctx) error {
 	postModel, err := services.PostService.HandlePostRequestPost(c)
 	if err != nil {
 		return err
-	}
-
-	fmt.Println(postModel)
-	if !postModel.IsDraft && postModel.PublicatedAt.Valid {
-		postModel.PublicatedAt = sql.NullTime{Time: time.Now()}
 	}
 
 	tagsToBeDeleted := services.PostService.GetTagsToBeDeleted(postModel.Id, postModel)

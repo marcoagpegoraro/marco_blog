@@ -19,15 +19,17 @@
       value="{{ post.Subtitle|default_if_none:"" }}">
     </div>
 
-      {% include "components/chip_input.django" %}
+    {% include "components/chip_input.django" %}
 
-      {% include "components/language_dropdown.django" %}
+    {% include "components/language_dropdown.django" %}
 
     <div class="card" style="width: 100%; min-height: 500px;">
       <div id="editor"></div>
     </div>
 
     <textarea style="display:none" id="PostBody" name="PostBody">{{ post.Body|default_if_none:"" }}</textarea>
+
+    <textarea style="display:none" id="PostPublicatedAt" name="PostPublicatedAt">{{ post.PublicatedAt.Value|default_if_none:"" }}</textarea>
 
     <div class="mb-3" style="display: flex; justify-content: right; margin-top: 16px;">
       <button type="submit" name="PostIsDraft" value="true" class="button style-light">Save as draft</button>

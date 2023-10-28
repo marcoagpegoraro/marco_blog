@@ -1,7 +1,10 @@
 package mapper
 
 import (
+	"database/sql"
+	"fmt"
 	"strings"
+	"time"
 
 	"github.com/marcoagpegoraro/marco_blog/dto"
 	"github.com/marcoagpegoraro/marco_blog/models"
@@ -24,5 +27,19 @@ func MapPostRequestToPostModel(postRequest dto.PostRequest) models.Post {
 	postModel.Language = postRequest.PostLanguage
 	postModel.IsDraft = postRequest.PostIsDraft
 
+	fmt.Println(postRequest.PostPublicatedAt)
+	if postRequest.PostPublicatedAt == "" && postModel.IsDraft {
+		postModel.PublicatedAt = sql.NullTime{}
+	} else if postRequest.PostPublicatedAt == "" && !postModel.IsDraft {
+		postModel.PublicatedAt = sql.NullTime{Time: time.Now(), Valid: true}
+	} else {
+		postPublicatedAt, err := time.Parse("2006-01-02 15:04:05 -0700 -07", postRequest.PostPublicatedAt)
+		if err != nil {
+			fmt.Println(err)
+		}
+		postModel.PublicatedAt = sql.NullTime{Time: postPublicatedAt, Valid: true}
+	}
+
+	fmt.Println(postModel.PublicatedAt)
 	return *postModel
 }
