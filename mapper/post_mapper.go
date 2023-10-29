@@ -33,7 +33,7 @@ func MapPostRequestToPostModel(postRequest dto.PostRequest) models.Post {
 	} else if postRequest.PostPublicatedAt == "" && !postModel.IsDraft {
 		postModel.PublicatedAt = sql.NullTime{Time: time.Now(), Valid: true}
 	} else {
-		postPublicatedAt, err := time.Parse("2006-01-02 15:04:05 -0700 -07", postRequest.PostPublicatedAt)
+		postPublicatedAt, err := time.Parse("2006-01-02 15:04:05 -0700 UTC", postRequest.PostPublicatedAt)
 		if err != nil {
 			fmt.Println(err)
 		}
