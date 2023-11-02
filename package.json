@@ -1,0 +1,24 @@
+{
+  "name": "marco_blog",
+  "version": "1.0.0",
+  "description": "My personal blog, it was coded by me using Go with Fiber, Gorm, AWS S3, Django Templates, FlatifyCSS and deploy at Railway.",
+  "main": "index.js",
+  "scripts": {
+    "build": "tailwindcss build -o public/assets/styles/tailwind.css",
+    "watch": "tailwindcss build -o public/assets/styles/tailwind.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marcoagpegoraro/marco_blog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marcoagpegoraro/marco_blog/issues"
+  },
+  "homepage": "https://github.com/marcoagpegoraro/marco_blog#readme",
+  "dependencies": {
+    "tailwindcss": "^3.3.5"
+  }
+}
