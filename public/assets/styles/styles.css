@@ -4,7 +4,7 @@ body {
     font-family: 'Roboto', sans-serif !important;
   } */
 
-  @media (prefers-color-scheme: dark) {
+  /* @media (prefers-color-scheme: dark) { */
     /* :root {
       --flatify__hover-brightness: 110%;
   
@@ -24,4 +24,4 @@ body {
       --flatify__color-dark-primary: #ced9e3;
       --flatify__color-dark-dark: #809cb6;
     } */
-  }
+  /* } */

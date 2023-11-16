@@ -2,3 +2,4 @@ marco_blog
 .env
 todolist.txt
 node_modules
+public/assets/styles/tailwind.css

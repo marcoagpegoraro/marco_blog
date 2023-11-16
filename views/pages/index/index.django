@@ -2,12 +2,12 @@
 
 <style>
   
-  body {
+  {% comment %} body {
     background-image: radial-gradient(circle at 1px 1px, #CED9E3 1px, transparent 0);
     background-size: 40px 40px;
     display: flex;
     flex-direction: column;
-  }
+  } {% endcomment %}
 
   #post-list-section, #side-bar {
     margin:20px;
@@ -24,7 +24,6 @@
 }
 
 </style>
-
 <div id="homePage">
   <section id="post-list-section" class="m-2">
     {% include "components/pagination.django" %}

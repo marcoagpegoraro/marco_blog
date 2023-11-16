@@ -14,11 +14,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">    
     <link rel="stylesheet" href="/assets/styles/styles.css">
     <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
-    <link
+    {% comment %} <link
       href="https://cdn.jsdelivr.net/npm/flatifycss/dist/css/flatify.min.css"
       rel="stylesheet"
       crossorigin="anonymous"
-    />
+    /> {% endcomment %}
     <link rel="stylesheet" href="/assets/styles/tailwind.css" />
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6099083952951835"
     crossorigin="anonymous"></script>
@@ -38,7 +38,7 @@
   <!-- JavaScript : Disqus comment post count -->
   <script id="dsq-count-scr" src="//www-marcoagpegoraro-com-br.disqus.com/count.js" async></script>
   <!-- JavaScript : Popperjs + FlatifyCSS -->
-  <script src="https://unpkg.com/@popperjs/core@2" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatifycss/dist/js/flatify.min.js" crossorigin="anonymous"></script>
+  {% comment %} <script src="https://unpkg.com/@popperjs/core@2" crossorigin="anonymous"></script> {% endcomment %}
+  {% comment %} <script src="https://cdn.jsdelivr.net/npm/flatifycss/dist/js/flatify.min.js" crossorigin="anonymous"></script> {% endcomment %}
 </body>
 </html>

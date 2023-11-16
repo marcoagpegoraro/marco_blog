@@ -20,5 +20,8 @@
   "homepage": "https://github.com/marcoagpegoraro/marco_blog#readme",
   "dependencies": {
     "tailwindcss": "^3.3.5"
+  },
+  "devDependencies": {
+    "daisyui": "^3.9.4"
   }
 }
