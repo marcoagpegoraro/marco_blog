@@ -5,19 +5,14 @@
     <label for="showDrafts" class="toggle-wrapper" style="display: inline;">
       <span>Show drafts</span>
       <br>
-      <input id="showDrafts" type="checkbox" name="showDrafts" role="switch" class="show-drafts-pagination" />
-      <span class="check size-2x" style="
-        margin-top: 6px;
-        border-width: 2.5px;
-        height: 48px;
-      "></span>      
+      <input id="showDrafts" type="checkbox" name="showDrafts" role="switch" class="toggle toggle-lg show-drafts-pagination" />
     </label>
   </div>
   {% endif %}
 
   <div>
     <label for="postsPerPage" class="form-label">Posts per page</label>
-    <select id="postsPerPage" class="posts-per-page-pagination" aria-label="Posts per page">
+    <select id="postsPerPage" class="input input-bordered posts-per-page-pagination" aria-label="Posts per page">
       <option value="10">10</option>
       <option value="25">25</option>
       <option value="50">50</option>
@@ -27,7 +22,7 @@
 
   <div>
     <label for="language" class="form-label">Language</label>
-    <select id="language" class="language-pagination" aria-label="Posts per page">
+    <select id="language" class="input input-bordered language-pagination" aria-label="Posts per page">
       <option value="All">All</option>
       <option value="English">English</option>
       <option value="BrazilianPortuguese">Portuguese</option>
@@ -43,7 +38,7 @@
         style="align-self: center; cursor: pointer;">
       {% for pagination_button in pagination_buttons %}
         <a onclick="handlePaginationButtonClick({{pagination_button.PageNumber}})" 
-          class="button bordered 
+          class="btn bordered 
             {% if pagination_button.IsCurrentPage  %}active style-accent{% endif %}
         ">
         {{ pagination_button.PageNumber }}

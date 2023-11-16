@@ -17,7 +17,7 @@
   
     <button 
       id="clean-tags-filter-button" 
-      class="button style-warning" 
+      class="btn bg-yellow-500 text-black" 
       style="min-width: 190px;"
       onclick="handleCleanTagButtonClick()"
     > 

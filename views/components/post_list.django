@@ -4,6 +4,10 @@
     margin: 20px 0;
   }
 
+  .card-image {
+    height: 200px;
+  }
+
   .card-image img {
     object-fit: cover;
     max-height: 100%;
@@ -19,7 +23,7 @@
 
 {% for post in posts %}
 
-<article class="card horizontal post-card">
+{% comment %} <article class="card horizontal post-card">
   <header class="card-header">
     <div class="card-badges">
       {% for tag in post.Tags %}
@@ -47,6 +51,20 @@
       <a href="/posts/{{post.Id}}" class="button style-accent push-right size-lg">Read more</a>
     </footer>
   </div>
-</article>
+</article> {% endcomment %}
+
+
+<div class="card post-card lg:card-side bg-base-300 shadow-xl">
+  <figure class="card-image">
+    {{ getFirstImageUrlFromString(post.Body) }}
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">{{ post.Title }}</h2>
+    <p>{{ post.Body | striptags | safe | escape | truncatechars:150 }}</p>
+    <div class="card-actions justify-end">
+      <button class="btn btn-primary">Listen</button>
+    </div>
+  </div>
+</div>
 
 {% endfor %}
