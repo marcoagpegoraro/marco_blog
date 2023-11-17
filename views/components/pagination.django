@@ -12,6 +12,7 @@
 
   <div>
     <label for="postsPerPage" class="form-label">Posts per page</label>
+    <br>
     <select id="postsPerPage" class="input input-bordered posts-per-page-pagination" aria-label="Posts per page">
       <option value="10">10</option>
       <option value="25">25</option>
@@ -22,6 +23,7 @@
 
   <div>
     <label for="language" class="form-label">Language</label>
+    <br>
     <select id="language" class="input input-bordered language-pagination" aria-label="Posts per page">
       <option value="All">All</option>
       <option value="English">English</option>
@@ -38,9 +40,7 @@
         style="align-self: center; cursor: pointer;">
       {% for pagination_button in pagination_buttons %}
         <a onclick="handlePaginationButtonClick({{pagination_button.PageNumber}})" 
-          class="btn bordered 
-            {% if pagination_button.IsCurrentPage  %}active style-accent{% endif %}
-        ">
+          class="btn {% if pagination_button.IsCurrentPage  %}btn-active btn-neutral{% endif %}">
         {{ pagination_button.PageNumber }}
       </a>
     {% endfor %}
