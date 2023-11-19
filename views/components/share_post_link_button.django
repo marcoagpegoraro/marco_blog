@@ -1,14 +1,11 @@
 <div id="copy-post-{{post.Id}}-to-clipboard-wrapper" class="dropdown-wrapper popover">
-  <button id="copy-post-{{post.Id}}-to-clipboard" class="button bordered style-light-light dropdown-toggle bi bi-clipboard-fill" 
+  <button id="copy-post-{{post.Id}}-to-clipboard" class="btn style-light-light dropdown-toggle bi bi-clipboard-fill" 
   aria-expanded="false" aria-label="Copy to clipboard" 
   onclick="navigator.clipboard.writeText(window.location.origin + '/posts/' + {{post.Id}})">
   </button>  
-  <div class="dropdown" aria-labelledby="copy-post-{{post.Id}}-to-clipboard">
-    Copied post link to clipboard!
-  </div>
 </div>
 
-<button id="share-post-{{post.Id}}" class="button bordered style-light-light dropdown-toggle bi bi-share-fill" 
+<button id="share-post-{{post.Id}}" class="btn style-light-light dropdown-toggle bi bi-share-fill" 
   aria-expanded="false" aria-label="Copy to clipboard">
 </button>
 

@@ -27,7 +27,7 @@
     <section>
       {% for tag in tags %}
         {% if tag.Name != "" %}
-          <button class="badge badge-success gap-2" 
+          <button class="badge badge-success text-white gap-2" 
             onclick="handleTagButtonClick('{{tag.Name}}')" >
             {{ tag.Name }}
           </button>

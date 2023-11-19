@@ -49,7 +49,7 @@
     {% if post.Tags|length != 0  %}
       Tags: 
       {% for tag in post.Tags %}
-        <span class="badge style-green edge-circle" style="bottom: 1px; position: relative;">{{ tag.Name }}</span>
+        <span class="badge badge-success" style="bottom: 1px; position: relative;">{{ tag.Name }}</span>
       {% endfor %}
     {% endif %}
     <hr/>

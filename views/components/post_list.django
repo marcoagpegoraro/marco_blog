@@ -59,10 +59,27 @@
     {{ getFirstImageUrlFromString(post.Body) }}
   </figure>
   <div class="card-body">
+    <span style="color: gray; font-size: 10pt;">
+      {% if post.PublicatedAt.Valid %}
+        {{ formatDate(post.PublicatedAt.Time)|slice:":10" }}
+      {% else %}
+        {{ formatDate(post.CreatedAt)|slice:":10" }}
+      {% endif %}
+      &nbsp;&nbsp;&nbsp;
+      <a href="{{base_url}}/posts/{{post.Id}}#disqus_thread"></a>
+    </span>
     <h2 class="card-title">{{ post.Title }}</h2>
     <p>{{ post.Body | striptags | safe | escape | truncatechars:150 }}</p>
     <div class="card-actions justify-end">
-      <button class="btn btn-primary">Listen</button>
+      <section style="width: 100%;">
+        {% for tag in post.Tags %}
+          <span>
+            <a href="#" class="badge badge-success">{{ tag.Name }}</a>
+          </span>
+        {% endfor %}
+      </section>
+      {% include "components/share_post_link_button.django" %}
+      <a href="/posts/{{post.Id}}" class="btn btn-primary">Read more</a>
     </div>
   </div>
 </div>
