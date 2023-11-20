@@ -11,6 +11,17 @@
             {{ title }} - Marco's blog
         {% endif %}
     </title>
+    
+    <meta property="og:title" content="{% if post.Title != None %}{{ post.Title }}{% else %}Marco's Blog{% endif %}" /> {% comment %} og:title - Maximum of 35 characters {% endcomment %}
+    <meta property="og:url" content="{% if base_url != None && original_url != None %}{{base_url + original_url}}{% else %}https://www.marcoagpegoraro.com.br{% endif %}" />{% comment %} og:url - Full link to the current webpage address {% endcomment %}
+    <meta property="og:description" content="{% if post.Body != None %}{{ post.Body | striptags | safe | escape | truncatechars:50 }}{% else %}Welcome to my personal blog!{% endif %}" /> {% comment %}description - Maximum of 65 characters {% endcomment %}
+    <meta name="description" content="{% if post.Body != None %}{{ post.Body | striptags | safe | escape | truncatechars:148 }}{% else %}Welcome to my personal blog!{% endif %}" /> {% comment %} description - Maximum of 155 characters {% endcomment %}
+    <meta property="og:image" content="{% if post.Body != None %}{{ getFirstImageUrlFromString(post.Body) |slice:"10:-2" }}{% else %}https://www.marcoagpegoraro.com.br/assets/images/profile-pic.jpg{% endif %}" />{% comment %}og:image - Image(JPG or PNG) with a size less than 300KB and minimum dimensions of 300 x 200 *. This image should be served via a HTTPS connection with a valid non-self-signed certificate.** {% endcomment %}
+    <meta property="og:type" content="blog" /> {% comment %} og:type - In order for your object to be represented within the graph, you need to specify its type. Here's a list of the global types available: http://ogp.me/#types. You can also specify your own types. {% endcomment %}
+    <meta property="og:locale" content="en_US" /> {% comment %} og:locale - The locale of the resource. You can also use og:locale:alternate if you have other language translations available. {% endcomment %}
+    <meta property="og:locale:alternate" content="pt_BR" />
+    <meta property="og:locale:alternate" content="it_IT" />
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">    
     <link rel="stylesheet" href="/assets/styles/styles.css">
     <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
@@ -23,7 +34,7 @@
     crossorigin="anonymous"></script>
 </head>
 <body>
-  <!-- JavaScript : global variables: -->
+  {% comment %} JavaScript : global variables:  {% endcomment %}
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     
@@ -34,9 +45,9 @@
     };
   </script>
   {{embed}}
-  <!-- JavaScript : Disqus comment post count -->
+   {% comment %} JavaScript : Disqus comment post count  {% endcomment %}
   <script id="dsq-count-scr" src="//www-marcoagpegoraro-com-br.disqus.com/count.js" async></script>
-  <!-- JavaScript : Popperjs + FlatifyCSS -->
+   {% comment %} JavaScript : Popperjs + FlatifyCSS  {% endcomment %}
   <script src="https://unpkg.com/@popperjs/core@2" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatifycss/dist/js/flatify.min.js" crossorigin="anonymous"></script>
 </body>

@@ -36,9 +36,11 @@ func (controller PostControllerStruct) GetOne(c *fiber.Ctx) error {
 	}
 
 	return c.Render("pages/posts/one", fiber.Map{
-		"title":   post.Title,
-		"post":    post,
-		"is_auth": c.Locals("is_auth"),
+		"title":        post.Title,
+		"post":         post,
+		"base_url":     c.BaseURL(),
+		"original_url": c.OriginalURL(),
+		"is_auth":      c.Locals("is_auth"),
 	}, "layouts/main")
 }
 
