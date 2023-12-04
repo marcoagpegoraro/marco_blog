@@ -1,51 +1,6 @@
-<style>
-  .post-card{
-    width: 100%; 
-    margin: 20px 0;
-  }
-
-  @media (min-width: 700px) {
-    .post-card{
-      max-width: 700px; 
-      margin: 20px 0;
-    }
-  }
-</style>
-
 {% for post in posts %}
 
-{% comment %} <article class="card horizontal post-card">
-  <header class="card-header">
-    <div class="card-badges">
-      {% for tag in post.Tags %}
-        <a href="#" class="badge style-green">{{ tag.Name }}</a>
-      {% endfor %}
-    </div>
-    <div style="height: 200px" class="card-image">
-      {{ getFirstImageUrlFromString(post.Body) }}
-    </div>
-  </header>
-  <div class="card-right">
-    <div class="card-body">
-      {% if post.PublicatedAt.Valid %}
-        <span style="color: gray; font-size: 10pt;">{{ formatDate(post.PublicatedAt.Time)|slice:":10" }}</span>
-      {% else %}
-        <span style="color: gray; font-size: 10pt;">{{ formatDate(post.CreatedAt)|slice:":10" }}</span>
-      {% endif %}
-      <h2 class="card-title" style="margin-top: 0;">{{ post.Title }}</h2>
-      {{ post.Body | striptags | safe | escape | truncatechars:150 }}
-    </div>
-
-    <footer class="card-footer">
-      {% include "components/share_post_link_button.django" %}
-      <div><a href="{{base_url}}/posts/{{post.Id}}#disqus_thread"></a></div>
-      <a href="/posts/{{post.Id}}" class="button style-accent push-right size-lg">Read more</a>
-    </footer>
-  </div>
-</article> {% endcomment %}
-
-
-<div class="card post-card lg:card-side bg-base-300">
+<div class="card card-compact w-[100%] lg:max-w-[700px] mt-5 mb-5 lg:card-side bg-base-300">
   <a href="/posts/{{post.Id}}" class="lg:max-w-[200px] self-center" style="
     flex: -moz-available;
     flex: -webkit-fill-available;
