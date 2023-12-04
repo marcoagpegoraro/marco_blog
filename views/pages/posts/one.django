@@ -20,19 +20,26 @@
     margin: 0; 
   }
 
-  h1 { 
-    font-size: 2.5rem; 
+  .post-title { 
+    font-size: 2.8rem; 
+    font-weight: bold;
+    line-height: normal;
   }
-  h2 { 
-    font-size: 1.5rem;
-    font-weight: lighter; 
+  .post-subtitle { 
+    font-size: 2rem;
+    font-weight: lighter;
+    line-height: normal; 
+  }
+
+  hr {
+    margin: 20px 0px;
   }
     
 </style>
 
 <div class="post">
     {% if is_auth %}
-      <button class="button style-orange" style="float: right;" onclick="location.href='/posts/{{post.Id}}/edit';">Edit post</button>
+      <button class="btn bg-orange" style="float: right;" onclick="location.href='/posts/{{post.Id}}/edit';">Edit post</button>
     {% endif %}
     <h1 class="post-title">{{ post.Title }}</h1>  
     <h2 class="post-subtitle">{{ post.Subtitle }}</h2> 
@@ -53,13 +60,13 @@
       {% endfor %}
     {% endif %}
     <hr/>
-    <article id="article">
+    <article class="prose md:prose-md lg:prose-md" id="article">
       {{ post.Body }} 
     </article>
     <hr/>
     {% include "components/disqus.django" %}
 
-</div>
+  </div>
 
 <script>
   function readingTime() { //https://dev.to/michaelburrows/calculate-the-estimated-reading-time-of-an-article-using-javascript-2k9l

@@ -1,7 +1,7 @@
 {% include "partials/header.django" %}
 
 
-<section style="max-width: 800px; margin: 0 auto;">
+<section style="max-width: 700px; margin: 0 auto;">
   <h1>{{ title }}</h1>
 
   <form id="form" action="" method="post" onkeydown="return event.key != 'Enter';">

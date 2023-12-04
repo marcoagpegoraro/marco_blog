@@ -1,35 +1,38 @@
-{% comment %} <nav class="navbar bg-base-100"> 
-  <a class="navbar-logo" href="/"> 
-    <figure style="height: 100%;">
-      <img src="https://avatars.akamai.steamstatic.com/d6eb57269701d4f9c04ada28cf3c06b7825d7565_full.jpg" alt="logo"> 
-    </figure>
-  </a>
-  <ul class="links">
-    <li class="menu-item" id="homeButtonNavbar"><a href="/">Marco Pegoraro</a> </li>
-    {% if is_auth %}
-      <li class="menu-item" id="createPostButtonNavbar"> <a href="/posts/add">Create post</a> </li>
-      <li class="menu-item"> <a href="/logoff">Log off</a> </li>
-    {% endif %}
-    <li class="menu-item style-dark" style="cursor: pointer;">
-      <a target="_blank" href="https://marcoagpegoraro.github.io">
-        Portifolio website
-      </a>
-      <span class="secondary-text">
-        <i class="bi bi-box-arrow-up-right"></i>
-      </span>
-    </li>
-  </ul>
-</nav> {% endcomment %}
-
 <div class="navbar bg-base-300">
-  <a href="/" tabindex="0" class="btn btn-ghost btn-circle avatar">
-    <div class="w-10 rounded-full">
-      <img alt="Avatar" src="https://simg-ssl.duolingo.com/avatars/181230450/L3ISxvuVCu/xxlarge" />
+  <div class="navbar-start">
+    <div class="dropdown">
+      <div tabindex="0" role="button" class="btn btn-ghost md:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+      </div>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-300 rounded-box w-52">
+        {% if is_auth %}
+        <li><a id="createPostButtonNavbar" href="/posts/add">Create post</a></li>
+        <li><a href="/logoff">Log off</a></li>
+        {% endif %}
+        <li><a href="https://marcoagpegoraro.github.io">Portifolio website<i class="bi bi-box-arrow-up-right"></i></a></li>  
+      </ul>
     </div>
-  </a>
-  <div class="flex-none">
-    <ul class="menu menu-horizontal px-1">
-      <li><a id="homeButtonNavbar" href="/">Marco Pegoraro</a></li>
+    <div class="hidden md:flex">
+      <a href="/" tabindex="0" class="btn btn-ghost btn-circle avatar">
+        <div class="w-10 rounded-full">
+          <img alt="Avatar" src="https://simg-ssl.duolingo.com/avatars/181230450/L3ISxvuVCu/xxlarge" />
+        </div>
+      </a>
+      <a id="homeButtonNavbar" class="btn" href="/">Marco Pegoraro</a>  
+    </div>
+  </div>
+  <div class="navbar-center">
+    <section class="md:hidden flex">
+      <a href="/" tabindex="0" class="btn btn-ghost btn-circle avatar">
+        <div class="w-10 rounded-full">
+          <img alt="Avatar" src="https://simg-ssl.duolingo.com/avatars/181230450/L3ISxvuVCu/xxlarge" />
+        </div>
+      </a>
+      <a id="homeButtonNavbar" class="btn" href="/">Marco Pegoraro</a>  
+    </section>
+  </div>
+  <div class="navbar-end">
+    <ul class="menu menu-horizontal px-1 hidden md:flex">
       {% if is_auth %}
       <li><a id="createPostButtonNavbar" href="/posts/add">Create post</a></li>
       <li><a href="/logoff">Log off</a></li>

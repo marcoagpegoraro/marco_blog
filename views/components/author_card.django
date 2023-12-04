@@ -3,7 +3,7 @@
     margin: 0 auto;
   }
 
-  @media (min-width: 992px) {
+  @media (min-width: 700px) {
   #aboutMeCard {
     width: 18rem;
   }
@@ -11,7 +11,7 @@
 </style>
 
 <div id="aboutMeCard" class="card bg-base-300" >
-  <figure>
+  <figure style="max-height: 200px;">
     <img src="/assets/images/background-pic.jpg" class="card-img-top" style="object-fit: cover; " alt="Background image">
   </figure>
   <div class="card-body">
