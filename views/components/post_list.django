@@ -2,9 +2,9 @@
 
 <div class="card card-compact w-[100%] lg:max-w-[700px] mt-5 mb-5 lg:card-side bg-base-200">
   <a href="/posts/{{post.Id}}" class="lg:max-w-[200px] self-center" style="
-    flex: -moz-available;
-    flex: -webkit-fill-available;
-    flex: fill-available;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: fill-available;
   ">
     <figure class="h-[200px] lg:m-2 rounded-lg">
       <img class="lg:w-[100%] lg:h-[100%] lg:rounded-lg" src="{{ getFirstImageUrlFromString(post.Body) |slice:"10:-2" }}" alt="{{ post.Title }} image">
