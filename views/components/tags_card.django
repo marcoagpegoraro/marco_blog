@@ -11,7 +11,7 @@
 }
 </style>
 
-<div id="tagsCard" class="card card-compact bg-base-300" >
+<div id="tagsCard" class="card card-compact bg-base-200" >
   <div class="card-body">
     <h2 class="card-title">Search by tags</h2>
   
@@ -27,7 +27,7 @@
     <section>
       {% for tag in tags %}
         {% if tag.Name != "" %}
-          <button class="badge badge-success m-1" 
+          <button class="badge badge-success m-0.5" 
             onclick="handleTagButtonClick('{{tag.Name}}')" >
             {{ tag.Name }}
           </button>

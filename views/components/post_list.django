@@ -1,6 +1,6 @@
 {% for post in posts %}
 
-<div class="card card-compact w-[100%] lg:max-w-[700px] mt-5 mb-5 lg:card-side bg-base-300">
+<div class="card card-compact w-[100%] lg:max-w-[700px] mt-5 mb-5 lg:card-side bg-base-200">
   <a href="/posts/{{post.Id}}" class="lg:max-w-[200px] self-center" style="
     flex: -moz-available;
     flex: -webkit-fill-available;

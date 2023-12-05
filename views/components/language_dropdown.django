@@ -1,5 +1,4 @@
-<label for="PostLanguage" class="form-label">Post language</label>
-<select id="PostLanguage" name="PostLanguage"  class="form-select" aria-label="Post language">
+<select class="select select-bordered w-full max-w" id="PostLanguage" name="PostLanguage"  class="form-select" aria-label="Post language">
   {% for  key, value in languages %}
     <option value="{{ key }}" 
       {% if value == post.Language.String|default_if_none:""  %}

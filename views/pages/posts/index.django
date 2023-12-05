@@ -2,27 +2,22 @@
 
 
 <section style="max-width: 700px; margin: 0 auto;">
-  <h1>{{ title }}</h1>
-
+  <br><br>
+  <h1 class="font-bold text-5xl">{{ title }}</h1>
+  <br><br>
   <form id="form" action="" method="post" onkeydown="return event.key != 'Enter';">
     <input style="display:none" id="PostId" name="PostId" value="{{ post.Id|default_if_none:"" }}"></input>
 
-    <label for="PostTitle" class="form-label">Title</label>
-    <div class="input-wrapper">
-      <input type="text" class="form-control" id="PostTitle" name="PostTitle" placeholder="Title"
-        value="{{ post.Title|default_if_none:"" }}">
-    </div>
-
-    <label for="PostSubtitle" class="form-label">Subtitle</label>
-    <div class="input-wrapper">
-      <input type="text" class="form-control" id="PostSubtitle" name="PostSubtitle" placeholder="Subtitle"
-      value="{{ post.Subtitle|default_if_none:"" }}">
-    </div>
-
+    <input class="input input-bordered w-full max-w" type="text" class="form-control" id="PostTitle" name="PostTitle" placeholder="Title"
+      value="{{ post.Title|default_if_none:"" }}">
+    <br><br>
+    <input class="input input-bordered w-full max-w" type="text" class="form-control" id="PostSubtitle" name="PostSubtitle" placeholder="Subtitle"
+    value="{{ post.Subtitle|default_if_none:"" }}">
+    <br><br>
     {% include "components/chip_input.django" %}
-
+    <br>
     {% include "components/language_dropdown.django" %}
-
+    <br><br>
     <div class="card" style="width: 100%; min-height: 500px;">
       <div id="editor"></div>
     </div>
@@ -32,8 +27,8 @@
     <textarea style="display:none" id="PostPublicatedAt" name="PostPublicatedAt">{{ post.PublicatedAt.Value|default_if_none:"" }}</textarea>
 
     <div class="mb-3" style="display: flex; justify-content: right; margin-top: 16px;">
-      <button type="submit" name="PostIsDraft" value="true" class="button style-light">Save as draft</button>
-      <button type="submit" name="PostIsDraft" value="false" class="button style-accent">Post</button>
+      <button type="submit" name="PostIsDraft" value="true" class="btn style-light">Save as draft</button>
+      <button type="submit" name="PostIsDraft" value="false" class="btn style-accent">Post</button>
     </div>
   </form>
 
