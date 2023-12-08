@@ -16,26 +16,120 @@
       </div>
     </div>
   </div>
+<style>
+ 
 
-  <div style="
-    width: auto;
-    border: 4px inset;
-    padding: 20px;
-    background-color: #F5F5F5;
-  ">
-    <form id="form" action="" method="post" class="form-stacked" style="padding-left: 0;">
-      <h2>Login</h2>
-      <br/><br/>
+  .jinx img {
+    display: block;
+    position: absolute;
+    -webkit-animation: moveX 2s linear 0s infinite alternate, moveY 3.4s linear 0s infinite alternate. spin 4s linear infinite;
+    -moz-animation: moveX 2s linear 0s infinite alternate, moveY 3.4s linear 0s infinite alternate, spin 4s linear infinite;
+    -o-animation: moveX 2s linear 0s infinite alternate, moveY 3.4s linear 0s infinite alternate, spin 4s linear infinite;
+    animation: moveX 2s linear 0s infinite alternate, moveY 3.4s linear 0s infinite alternate, spin 8s linear infinite;
+  }
+  .mimi img {
+    display: block;
+    position: absolute;
+    -webkit-animation: moveX 3s linear 0s infinite alternate, moveY 4.4s linear 0s infinite alternate, spin 4s linear infinite;
+    -moz-animation: moveX 3s linear 0s infinite alternate, moveY 4.4s linear 0s infinite alternate, spin 4s linear infinite;
+    -o-animation: moveX 3s linear 0s infinite alternate, moveY 4.4s linear 0s infinite alternate, spin 4s linear infinite;
+    animation: moveX 3s linear 0s infinite alternate, moveY 4.4s linear 0s infinite alternate, spin 4s linear infinite;
+  }
 
-      <label for="Username">Username</label>
-      <input class="xlarge" id="Username" name="Username" type="text">
+  .mimo img {
+    display: block;
+    position: absolute;
+    -webkit-animation: moveX 4s linear 0s infinite alternate, moveY 2s linear 0s infinite alternate, spin 4s linear infinite;
+    -moz-animation: moveX 4s linear 0s infinite alternate, moveY 2s linear 0s infinite alternate, spin 4s linear infinite;
+    -o-animation: moveX 4s linear 0s infinite alternate, moveY 2s linear 0s infinite alternate, spin 4s linear infinite;
+    animation: moveX 4s linear 0s infinite alternate, moveY 2s linear 0s infinite alternate, spin 3s linear infinite;
     
-      <label for="Password">Password</label>
-      <input class="xlarge" id="Password" name="Password" type="password">
-
-      <br/><br/>
-      <button type="submit" class="btn primary" style="float: right; cursor: pointer;">Login</button>
-    </form>
-
+  }
+  
+  @-webkit-keyframes moveX {
+    from { left: 0; } to { left: 80%; }
+  }
+  @-moz-keyframes moveX {
+    from { left: 0; } to { left: 80%; }
+  }
+  @-o-keyframes moveX {
+    from { left: 0; } to { left: 80%; }
+  }
+  @keyframes moveX {
+    from { left: 0; } to { left: 80%; }
+  }
+  
+  @-webkit-keyframes moveY {
+    from { top: 0; } to { top: 80%; }
+  }
+  @-moz-keyframes moveY {
+    from { top: 0; } to { top: 80%; }
+  }
+  @-o-keyframes moveY {
+    from { top: 0; } to { top: 80%; }
+  }
+  @keyframes moveY {
+    from { top: 0; } to { top: 80%; }
+  }
+  @-moz-keyframes spin { 
+    100% { -moz-transform: rotate(360deg); } 
+}
+@-webkit-keyframes spin { 
+    100% { -webkit-transform: rotate(360deg); } 
+}
+@keyframes spin { 
+    100% { 
+        -webkit-transform: rotate(360deg); 
+        transform:rotate(360deg); 
+    } 
+}
+</style>
+  <div class="flying-cats" style="width: 100vw; height: 100vh;position: absolute; z-index: 1;">
+    <div class="jinx" >
+      <img src="/assets/images/jinx.png" style="width: 140px;"/>
+    </div>
+    <div class="mimi">
+      <img src="/assets/images/mimi.png" style="width: 140px;"/>
+    </div>
+    <div class="mimo">
+      <img src="/assets/images/mimo.png" style="width: 140px;"/>
+    </div>
   </div>
+  <center style="z-index: 1;">
+      <img src="/assets/images/heydude.gif"/>
+      <h5>
+        u shouldn't be here<img src="/assets/images/emoticonnono.gif"/>
+        <br>
+        pls do not attempt to hack this website <img src="/assets/images/emoticonsad.gif"/>
+      </h5>
+      <br>
+    <div style="
+      width: 280px;
+      border: 4px inset;
+      padding: 20px;
+      background-color: #F5F5F5;
+    ">
+      <form id="form" action="" method="post" class="form-stacked" style="padding-left: 0;">
+        <h2>Login</h2>
+        <br/><br/>
+
+        <label for="Username">Username</label>
+        <input class="xlarge" id="Username" name="Username" type="text">
+      
+        <label for="Password">Password</label>
+        <input class="xlarge" id="Password" name="Password" type="password">
+
+        <br/><br/>
+        <button type="submit" class="btn primary" style="float: right; cursor: pointer;">Login</button>
+      </form>
+    </div>
+    <div>
+      <img src="/assets/images/computer.gif"/>
+      <img src="/assets/images/disk4.gif"/>
+      <img src="/assets/images/messenger.gif"/>
+      <img src="/assets/images/reibook.gif"/>
+      <img src="/assets/images/internet_explorer.gif"/>
+    </div>
+  </center>
+
 </div>

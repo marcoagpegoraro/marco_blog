@@ -1,7 +1,7 @@
 <div id="copy-post-{{post.Id}}-to-clipboard-wrapper" class="dropdown-wrapper popover">
   <button id="copy-post-{{post.Id}}-to-clipboard" class="btn style-light-light dropdown-toggle bi bi-clipboard-fill" 
   aria-expanded="false" aria-label="Copy to clipboard" 
-  onclick="navigator.clipboard.writeText(window.location.origin + '/posts/' + {{post.Id}})">
+  onclick="navigator.clipboard.writeText(window.location.origin + '/posts/' + '{{post.TitlePlusId()}}')">
   </button>  
 </div>
 
@@ -17,7 +17,7 @@
     const shareData = {
       title: `{{post.Title}}`,
       text: `{{post.Subtitle}}`,
-      url: window.location.origin + `/posts/` + `{{post.Id}}`
+      url: window.location.origin + `/posts/` + `{{post.TitlePlusId()}}`
     };
 
     const btn = document.getElementById("share-post-{{post.Id}}");

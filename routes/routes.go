@@ -32,6 +32,5 @@ func Routes(app *fiber.App) {
 
 	app.Get("/logoff", controllers.LogoffController.Get)
 
-	app.Get("/posts/:id<int>", controllers.PostController.GetOne)
-
+	app.Get("/posts/:id", controllers.PostController.GetOne)
 }

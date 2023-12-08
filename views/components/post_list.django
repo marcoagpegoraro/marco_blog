@@ -7,7 +7,7 @@
     width: fill-available;
   ">
     <figure class="h-[200px] lg:m-2 rounded-lg">
-      <img class="lg:w-[100%] lg:h-[100%] lg:rounded-lg" src="{{ getFirstImageUrlFromString(post.Body) |slice:"10:-2" }}" alt="{{ post.Title }} image">
+      <img class="lg:w-[100%] lg:h-[100%] lg:rounded-lg hover:blur-sm" src="{{ getFirstImageUrlFromString(post.Body) }}" alt="{{ post.Title }} image">
     </figure>
   </a>
   <div class="card-body">
@@ -25,13 +25,13 @@
     <div class="card-actions justify-end">
       <section style="width: 100%;">
         {% for tag in post.Tags %}
-          <span>
-            <a href="#" class="badge badge-success">{{ tag.Name }}</a>
+          <span class="badge badge-success">
+            {{ tag.Name }}
           </span>
         {% endfor %}
       </section>
       {% include "components/share_post_link_button.django" %}
-      <a href="/posts/{{post.Id}}" class="btn btn-primary">Read more</a>
+      <a href="/posts/{{post.TitlePlusId()}}" class="btn btn-primary">Read more</a>
     </div>
   </div>
 </div>

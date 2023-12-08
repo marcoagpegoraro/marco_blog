@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/marcoagpegoraro/marco_blog/dto"
 	"github.com/marcoagpegoraro/marco_blog/enum"
 	"github.com/marcoagpegoraro/marco_blog/initializers"
 	"github.com/marcoagpegoraro/marco_blog/repositories"
@@ -17,7 +18,7 @@ type PostControllerStruct struct {
 
 func (controller PostControllerStruct) Get(c *fiber.Ctx) error {
 	return c.Render("pages/posts/index", fiber.Map{
-		"title":     "Create new post",
+		"title":     "Create post",
 		"languages": enum.LanguageEnumValues(),
 		"is_auth":   c.Locals("is_auth"),
 	}, "layouts/main")
@@ -26,7 +27,9 @@ func (controller PostControllerStruct) Get(c *fiber.Ctx) error {
 func (controller PostControllerStruct) GetOne(c *fiber.Ctx) error {
 	id, err := services.PostService.GetIdParamFromUrl(c)
 	if err != nil {
-		return err
+		return c.RedirectToRoute("", fiber.Map{
+			"messages": []dto.MessageDto{{Message: "Post not found", Type: "warning"}},
+		})
 	}
 
 	post := services.PostService.GetPostById(id)
@@ -60,13 +63,15 @@ func (controller PostControllerStruct) Post(c *fiber.Ctx) error {
 func (controller PostControllerStruct) GetEditPost(c *fiber.Ctx) error {
 	id, err := services.PostService.GetIdParamFromUrl(c)
 	if err != nil {
-		return err
+		return c.RedirectToRoute("", fiber.Map{
+			"messages": []dto.MessageDto{{Message: "Post not found", Type: "warning"}},
+		})
 	}
 
 	post := repositories.PostRepository.GetPostById(id)
 
 	return c.Render("pages/posts/index", fiber.Map{
-		"title":     "Create new post",
+		"title":     "Edit post",
 		"post":      post,
 		"languages": enum.LanguageEnumValues(),
 		"is_auth":   c.Locals("is_auth"),

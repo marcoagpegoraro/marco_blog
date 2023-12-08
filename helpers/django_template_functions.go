@@ -13,7 +13,10 @@ func GetFirstImageUrlFromString(str string) string {
 	if matches == nil {
 		return ""
 	}
-	return matches[0][0]
+
+	imageURL := matches[0][0]
+
+	return imageURL[10 : len(imageURL)-2]
 }
 
 func FormatDate(date time.Time) string {

@@ -33,6 +33,10 @@ func (controller IndexControllerStruct) Get(c *fiber.Ctx) error {
 	posts := <-channelPosts
 	paginationButtons := <-channelPaginationButtons
 
+	if len(posts) == 0 && len(c.Queries()) != 0 {
+		return c.RedirectToRoute("", fiber.Map{})
+	}
+
 	return c.Render("pages/index/index", fiber.Map{
 		"title":              "Home",
 		"posts":              posts,

@@ -6,7 +6,7 @@
       </div>
       <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52">
         {% if is_auth %}
-        <li><a id="createPostButtonNavbar" href="/posts/add">Create post</a></li>
+        <li><a id="createPostButtonNavbar" href="/create-post">Create post</a></li>
         <li><a href="/logoff">Log off</a></li>
         {% endif %}
         <li><a href="https://marcoagpegoraro.github.io">Portifolio website<i class="bi bi-box-arrow-up-right"></i></a></li>  
@@ -34,7 +34,7 @@
   <div class="navbar-end">
     <ul class="menu menu-horizontal px-1 hidden md:flex">
       {% if is_auth %}
-      <li><a id="createPostButtonNavbar" href="/posts/add">Create post</a></li>
+      <li><a id="createPostButtonNavbar" href="/create-post">Create post</a></li>
       <li><a href="/logoff">Log off</a></li>
       {% endif %}
       <li><a href="https://marcoagpegoraro.github.io">Portifolio website<i class="bi bi-box-arrow-up-right"></i></a></li>
@@ -51,7 +51,7 @@
     case "/":
       button = document.getElementById("homeButtonNavbar")
       break;
-    case "/posts/add":
+    case "/create-post":
       button = document.getElementById("createPostButtonNavbar")
       break;
   }

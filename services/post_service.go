@@ -20,21 +20,26 @@ type PostServiceStruct struct {
 }
 
 func (service PostServiceStruct) GetIdParamFromUrl(c *fiber.Ctx) (int, error) {
-	params := c.AllParams()
-
-	id, ok := params["id"]
+	idParams, ok := c.AllParams()["id"]
 
 	if !ok {
-		return 0, c.Render("pages/index/index", fiber.Map{
-			"title": "Home",
-		}, "layouts/main")
+		return 0, fmt.Errorf("id not found in the url parameter")
 	}
 
-	idInt, err := strconv.Atoi(id)
+	lastOcurrenceOfDash := strings.LastIndex(idParams, "-")
+
+	var idString string
+
+	if lastOcurrenceOfDash == -1 {
+		idString = idParams
+	} else {
+		idString = idParams[lastOcurrenceOfDash+1:]
+	}
+
+	idInt, err := strconv.Atoi(idString)
+
 	if err != nil {
-		return 0, c.Render("pages/index/index", fiber.Map{
-			"title": "Home",
-		}, "layouts/main")
+		return 0, err
 	}
 
 	return idInt, nil
