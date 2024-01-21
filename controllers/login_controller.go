@@ -17,9 +17,11 @@ type LoginControllerStruct struct {
 }
 
 func (controller LoginControllerStruct) Get(c *fiber.Ctx) error {
-	return c.Render("pages/login/index", fiber.Map{
+	pathPrefix := c.Locals("layout_path_prefix").(string)
+
+	return c.Render(pathPrefix+"pages/login/index", fiber.Map{
 		"title": "Login",
-	}, "layouts/login")
+	}, pathPrefix+"layouts/main")
 }
 
 func (controller LoginControllerStruct) Post(c *fiber.Ctx) error {

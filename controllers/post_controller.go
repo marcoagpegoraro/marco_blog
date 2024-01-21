@@ -17,11 +17,13 @@ type PostControllerStruct struct {
 }
 
 func (controller PostControllerStruct) Get(c *fiber.Ctx) error {
-	return c.Render("pages/posts/index", fiber.Map{
+	pathPrefix := c.Locals("layout_path_prefix").(string)
+
+	return c.Render(pathPrefix+"pages/posts/index", fiber.Map{
 		"title":     "Create post",
 		"languages": enum.LanguageEnumValues(),
 		"is_auth":   c.Locals("is_auth"),
-	}, "layouts/main")
+	}, pathPrefix+"layouts/main")
 }
 
 func (controller PostControllerStruct) GetOne(c *fiber.Ctx) error {
@@ -37,14 +39,15 @@ func (controller PostControllerStruct) GetOne(c *fiber.Ctx) error {
 	if isAuth := c.Locals("is_auth").(bool); !isAuth && post.IsDraft {
 		c.RedirectToRoute("", fiber.Map{})
 	}
+	pathPrefix := c.Locals("layout_path_prefix").(string)
 
-	return c.Render("pages/posts/one", fiber.Map{
+	return c.Render(pathPrefix+"pages/posts/one", fiber.Map{
 		"title":        post.Title,
 		"post":         post,
 		"base_url":     c.BaseURL(),
 		"original_url": c.OriginalURL(),
 		"is_auth":      c.Locals("is_auth"),
-	}, "layouts/main")
+	}, pathPrefix+"layouts/main")
 }
 
 func (controller PostControllerStruct) Post(c *fiber.Ctx) error {
@@ -70,12 +73,14 @@ func (controller PostControllerStruct) GetEditPost(c *fiber.Ctx) error {
 
 	post := repositories.PostRepository.GetPostById(id)
 
-	return c.Render("pages/posts/index", fiber.Map{
+	pathPrefix := c.Locals("layout_path_prefix").(string)
+
+	return c.Render(pathPrefix+"pages/posts/index", fiber.Map{
 		"title":     "Edit post",
 		"post":      post,
 		"languages": enum.LanguageEnumValues(),
 		"is_auth":   c.Locals("is_auth"),
-	}, "layouts/main")
+	}, pathPrefix+"layouts/main")
 }
 
 func (controller PostControllerStruct) PostEditPost(c *fiber.Ctx) error {

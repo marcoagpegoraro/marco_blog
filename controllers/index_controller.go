@@ -37,12 +37,14 @@ func (controller IndexControllerStruct) Get(c *fiber.Ctx) error {
 		return c.RedirectToRoute("", fiber.Map{})
 	}
 
-	return c.Render("pages/index/index", fiber.Map{
+	pathPrefix := c.Locals("layout_path_prefix").(string)
+
+	return c.Render(pathPrefix+"pages/index/index", fiber.Map{
 		"title":              "Home",
 		"posts":              posts,
 		"tags":               tags,
 		"base_url":           c.BaseURL(),
 		"pagination_buttons": paginationButtons,
 		"is_auth":            isAuth,
-	}, "layouts/main")
+	}, pathPrefix+"layouts/main")
 }

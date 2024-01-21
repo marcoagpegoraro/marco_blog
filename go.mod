@@ -35,6 +35,8 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.17.1 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.23.0 // indirect
 	github.com/aws/smithy-go v1.14.2 // indirect
+	github.com/blang/semver/v4 v4.0.0 // indirect
+	github.com/dineshgowda24/browser v1.0.0 // indirect
 	github.com/flosch/pongo2/v6 v6.0.0 // indirect
 	github.com/go-sql-driver/mysql v1.7.1 // indirect
 	github.com/gofiber/template v1.8.2 // indirect
@@ -57,4 +59,5 @@ require (
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	golang.org/x/sys v0.13.0 // indirect
 	golang.org/x/text v0.13.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 )

@@ -44,6 +44,7 @@ func main() {
 	})
 
 	middlewares.CommonMiddlewares(app)
+	app.Use(middlewares.DetectBrowser)
 
 	app.Use(middlewares.IsAuthenticated)
 	routes.ApiRoutes(app)
