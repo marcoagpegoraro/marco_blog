@@ -15,7 +15,7 @@
     <div class="hidden md:flex">
       <a href="/" tabindex="0" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
-          <img alt="Avatar" src="https://simg-ssl.duolingo.com/avatars/181230450/L3ISxvuVCu/xxlarge" />
+          <img alt="Avatar" src="https://simg-ssl.duolingo.com/avatars/181230450/WGHwaefzSu/xlarge" />
         </div>
       </a>
       <a id="homeButtonNavbar" class="btn" href="/">Marco Pegoraro</a>  
@@ -25,7 +25,7 @@
     <section class="md:hidden flex">
       <a href="/" tabindex="0" class="btn btn-ghost btn-circle avatar">
         <div class="w-10 rounded-full">
-          <img alt="Avatar" src="https://simg-ssl.duolingo.com/avatars/181230450/L3ISxvuVCu/xxlarge" />
+          <img alt="Avatar" src="https://simg-ssl.duolingo.com/avatars/181230450/WGHwaefzSu/xlarge" />
         </div>
       </a>&nbsp;
       <a id="homeButtonNavbar" class="btn" href="/">Marco Pegoraro</a>  
